@@ -17,9 +17,9 @@ val KEY_LANGUAGE = "key_language"
  * @param themeResId activity theme ex: R.style.AppTheme
  */
 class ContextLocale(base: Context, @StyleRes themeResId: Int) : ContextThemeWrapper(base, themeResId) {
+    @Suppress("DEPRECATION")
     companion object {
-        @Suppress("DEPRECATION")
-        fun wrap(context: Context, @StyleRes themeResId: Int): ContextThemeWrapper {
+        fun wrap(context: Context): ContextThemeWrapper {
             var context = context
             val language = context.getLanguage()
 
@@ -35,17 +35,28 @@ class ContextLocale(base: Context, @StyleRes themeResId: Int) : ContextThemeWrap
                     context = context.createConfigurationContext(config)
                 } else context.resources.updateConfiguration(config, context.resources.displayMetrics)
             }
-            return ContextLocale(context, themeResId)
+            return ContextLocale(context, getThemeId(context))
         }
 
-        @Suppress("DEPRECATION")
         private fun setSystemLocaleCompat(config: Configuration, locale: Locale) =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    config.setLocale(locale)
-                } else config.locale = locale
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) config.setLocale(locale)
+                else config.locale = locale
 
     }
 }
+
+fun getThemeId(context: Context): Int {
+    try {
+        val wrapper = Context::class.java
+        val method = wrapper.getMethod("getThemeResId")
+        method.isAccessible = true
+        return method.invoke(context) as Int
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    return 0
+}
+
 
 @Suppress("DEPRECATION")
 fun Context.getSystemLocaleCompat(): Locale {
@@ -60,7 +71,6 @@ fun Context.saveLanguage(language: Language) {
             .putString(KEY_LANGUAGE, language.value)
             .apply()
 }
-
 
 fun Activity.saveLanguageAndRestart(language: Language) {
     saveLanguage(language)
