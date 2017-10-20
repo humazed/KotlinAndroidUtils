@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.warn
+import java.util.*
 
 
 class MainActivity : AppCompatActivity(), AnkoLogger {
@@ -26,6 +27,8 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
         warn { "decode1 = ${decode1}" }
         warn { "decode3 = ${decode3}" }
 
+        warn { "Locale.getDefault().language = ${Locale.getDefault().language}" }
+        warn { "getLanguage() = ${getLanguage()}" }
 
     }
 
