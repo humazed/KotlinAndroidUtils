@@ -7,7 +7,6 @@ import android.os.Build
 import android.preference.PreferenceManager.getDefaultSharedPreferences
 import android.support.annotation.StyleRes
 import android.view.ContextThemeWrapper
-import humazed.github.com.kotlinandroidutils.Language.ARABIC
 import java.util.*
 
 val KEY_LANGUAGE = "key_language"
@@ -66,10 +65,9 @@ fun Context.getSystemLocaleCompat(): Locale {
 }
 
 fun Context.saveLanguage(language: Language) {
-    getDefaultSharedPreferences(this)
-            .edit()
-            .putString(KEY_LANGUAGE, language.value)
-            .apply()
+    getDefaultSharedPreferences(this).edit {
+        putString(KEY_LANGUAGE, language.value)
+    }
 }
 
 fun Activity.saveLanguageAndRestart(language: Language) {
@@ -77,9 +75,16 @@ fun Activity.saveLanguageAndRestart(language: Language) {
     restart()
 }
 
-fun Context.getLanguage(): Language =
-        Language::class.decode(getDefaultSharedPreferences(this)
-                .getString(KEY_LANGUAGE, ARABIC.value))
+fun Context.getLanguage(): Language {
+    val deviceLanguage = try {
+        Language::class.decode(Locale.getDefault().language)
+    } catch (e: Exception) {
+        Language::class.decode("en")
+    }
+
+    return Language::class.decode(getDefaultSharedPreferences(this)
+            .getString(KEY_LANGUAGE, deviceLanguage.value))
+}
 
 
 enum class Language(val value: String) : Codified<String> {
