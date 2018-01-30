@@ -32,6 +32,11 @@ class MainActivity : AppCompatActivity(), AnkoLogger {
 
     }
 
-    override fun attachBaseContext(newBase: Context?) = super.attachBaseContext(ContextLocale.wrap(newBase!!))
+    override fun onResume() {
+        super.onResume()
+        onResumeLocaleDelegate()
+    }
+
+    override fun attachBaseContext(newBase: Context?) = super.attachBaseContext(wrap(newBase!!))
 
 }
