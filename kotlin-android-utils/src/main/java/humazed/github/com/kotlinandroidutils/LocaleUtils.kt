@@ -61,13 +61,13 @@ private fun getThemeId(context: Context): Int {
 }
 
 /**
- * Call this method on the Activity onResume. It will recreate the Activity if a Locale change is detected.*
+ * Call this method on the Activity onResume. It will recreate the Activity if a Locale change is detected.
  */
 fun Activity.onResumeLocaleDelegate() {
     val previousLocale = getCurrentLocaleCompat().language
     val savedLanguage = getDefaultSharedPreferences(this).getString(KEY_LANGUAGE, "")
     val shouldRestartActivity = savedLanguage.isNotBlank() && previousLocale != savedLanguage
-    if (shouldRestartActivity) recreate(this, false)
+    if (shouldRestartActivity) recreate(this)
 }
 
 
@@ -111,7 +111,7 @@ fun Context.getCurrentLocaleCompat(): Locale {
  */
 fun recreate(activity: Activity, animate: Boolean = true) {
     if (animate) {
-        val restartIntent = Intent(activity, activity.javaClass)
+        val restartIntent = Intent(activity, activity::class.java)
 
         val extras = activity.intent.extras
         if (extras != null) {
