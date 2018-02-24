@@ -11,8 +11,11 @@ var View.visible
         visibility = if (value) VISIBLE else GONE
     }
 
-inline fun View.hide(invisible: Boolean = true) {
-    visibility = if (invisible) GONE else INVISIBLE
+/**
+ * gone: Boolean = true
+ */
+inline fun View.hide(gone: Boolean = true) {
+    visibility = if (gone) GONE else INVISIBLE
 }
 
 inline fun View.show() {
