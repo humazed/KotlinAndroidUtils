@@ -50,7 +50,7 @@ private fun setSystemLocaleCompat(config: Configuration, locale: Locale) {
 
 private fun getThemeId(context: Context): Int {
     return try {
-        val wrapper = Context::class.java
+        val wrapper = ContextThemeWrapper::class.java
         val method = wrapper.getMethod("getThemeResId")
         method.isAccessible = true
         method.invoke(context) as Int
