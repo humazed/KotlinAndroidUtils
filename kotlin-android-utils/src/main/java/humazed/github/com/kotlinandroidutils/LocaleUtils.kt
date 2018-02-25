@@ -21,11 +21,18 @@ const val KEY_LANGUAGE = "key_language"
  */
 class ContextLocale(base: Context, @StyleRes themeResId: Int) : ContextThemeWrapper(base, themeResId)
 
+/**
+ * @param  context the context for activity.
+ * @param activityLanguage the language of the activity regardless of selected language.
+ *
+ * **Note:** the [activityLanguage] doesn't impact the application language only the current activity.
+ * when set shouldn't to use [onResumeLocaleDelegate]
+ */
 @Suppress("DEPRECATION")
 @SuppressLint("ObsoleteSdkInt")
-fun wrap(context: Context): ContextThemeWrapper {
+fun wrap(context: Context, activityLanguage: Language? = null): ContextThemeWrapper {
     var context = context
-    val language = context.getLanguage()
+    val language = activityLanguage ?: context.getLanguage()
 
     val config = context.resources.configuration
 
