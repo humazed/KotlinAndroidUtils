@@ -1,7 +1,9 @@
 package humazed.github.com.kotlinandroidutils
 
 import android.app.ActivityManager
+import android.app.Service
 import android.content.Context
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.util.Log
 
 /**
@@ -21,3 +23,5 @@ fun Context.isServiceRunning(serviceClass: Class<*>): Boolean {
     }
     return false
 }
+
+inline fun <reified T : Service> Context.isServiceRunning() = isServiceRunning(T::class.java)
