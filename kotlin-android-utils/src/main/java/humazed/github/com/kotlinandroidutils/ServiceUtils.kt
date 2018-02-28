@@ -3,7 +3,6 @@ package humazed.github.com.kotlinandroidutils
 import android.app.ActivityManager
 import android.app.Service
 import android.content.Context
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.util.Log
 
 /**
