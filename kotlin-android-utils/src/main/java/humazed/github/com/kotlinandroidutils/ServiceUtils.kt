@@ -11,6 +11,7 @@ import android.util.Log
  * @param serviceClass the service class
  * @return whether the service is running
  */
+@Suppress("DEPRECATION")
 fun Context.isServiceRunning(serviceClass: Class<*>): Boolean {
     try {
         val manager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
