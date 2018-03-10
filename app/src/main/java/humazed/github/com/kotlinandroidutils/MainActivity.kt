@@ -40,7 +40,9 @@ class MainActivity : AppCompatActivity() {
         e { "log ${i++}" }
         wtf { "log ${i++}" }
 
-        e(NullPointerException("12345"))
+        val exception = NullPointerException("12345")
+        e(exception)
+        e(exception) { "exception" }
     }
 
     private fun codifiedTest() {
