@@ -4,9 +4,9 @@ package humazed.github.com.kotlinandroidutils
 
 import timber.log.Timber
 
-//
+///////////////////////////////////////////////////////////////////////////
 // Static methods on the Timber object
-//
+///////////////////////////////////////////////////////////////////////////
 
 object Timber {
     /** Log a verbose exception and a message that will be evaluated lazily when the message is printed */
@@ -62,9 +62,9 @@ object Timber {
     @JvmStatic inline fun DebugTree() = Timber.DebugTree()
 }
 
-//
+///////////////////////////////////////////////////////////////////////////
 // Extensions on trees
-//
+///////////////////////////////////////////////////////////////////////////
 
 /** Log a verbose exception and a message that will be evaluated lazily when the message is printed */
 inline fun Timber.Tree.v(message: () -> String) = log { v(message()) }
@@ -90,9 +90,9 @@ inline fun Timber.Tree.e(t: Throwable, message: () -> String) = log { e(t, messa
 inline fun Timber.Tree.wtf(message: () -> String) = log { wtf(message()) }
 inline fun Timber.Tree.wtf(t: Throwable, message: () -> String) = log { wtf(t, message()) }
 
-//
+///////////////////////////////////////////////////////////////////////////
 // Plain functions
-//
+///////////////////////////////////////////////////////////////////////////
 
 /** Log a verbose exception and a message that will be evaluated lazily when the message is printed */
 inline fun v(message: () -> String) = log { Timber.v(message()) }
