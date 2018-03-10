@@ -25,11 +25,17 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
+    testImplementation 'org.robolectric:robolectric:3.7.1'
+    testImplementation 'org.assertj:assertj-core:3.8.0'
+
     androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     implementation "com.android.support:appcompat-v7:$support_version"
-    implementation  "com.android.support:recyclerview-v7:$support_version"
+    implementation "com.android.support:recyclerview-v7:$support_version"
+
+    api 'com.jakewharton.timber:timber:4.6.1'
+
 }
