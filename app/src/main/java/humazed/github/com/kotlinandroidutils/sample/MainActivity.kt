@@ -32,18 +32,18 @@ class MainActivity : AppCompatActivity() {
         Timber.tag("Custom tag").d { "log ${i++}" }
         Timber.tag("Custom tag").i { "log ${i++}" }
         Timber.tag("Custom tag").w { "log ${i++}" }
-        Timber.tag("Custom tag").e { "log ${i++}" }
+        Timber.tag("Custom tag").er { "log ${i++}" }
         Timber.tag("Custom tag").wtf { "log ${i++}" }
 
         d { "log ${i++}" }
         i { "log ${i++}" }
         w { "log ${i++}" }
-        e { "log ${i++}" }
+        er { "log ${i++}" }
         wtf { "log ${i++}" }
 
         val exception = NullPointerException("12345")
-        e(exception)
-        e(exception) { "exception" }
+        er(exception)
+        er(exception) { "exception" }
     }
 
     private fun codifiedTest() {

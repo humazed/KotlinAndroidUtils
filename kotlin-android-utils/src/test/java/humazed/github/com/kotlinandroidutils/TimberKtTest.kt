@@ -39,9 +39,9 @@ class TimberKtTest {
         w { "Warn" }
         Timber.w { "Warn" }
         Timber.tag("Custom").w { "Warn" }
-        e { "Error" }
+        er { "Error" }
         Timber.e { "Error" }
-        Timber.tag("Custom").e { "Error" }
+        Timber.tag("Custom").er { "Error" }
         wtf { "Assert" }
         Timber.wtf { "Assert" }
         Timber.tag("Custom").wtf { "Assert" }
@@ -78,7 +78,7 @@ class TimberKtTest {
             }
         })
 
-        val e = Exception("e")
+        val e = Exception("er")
 
         v(e)
         v(e) { "Verbose" }
@@ -100,11 +100,11 @@ class TimberKtTest {
         Timber.w(e)
         Timber.w(e) { "Warn" }
         Timber.tag("Custom").w(e) { "Warn" }
-        e(e)
-        e(e) { "Error" }
+        er(e)
+        er(e) { "Error" }
         Timber.e(e)
         Timber.e(e) { "Error" }
-        Timber.tag("Custom").e(e) { "Error" }
+        Timber.tag("Custom").er(e) { "Error" }
         wtf(e)
         wtf(e) { "Assert" }
         Timber.wtf(e)
