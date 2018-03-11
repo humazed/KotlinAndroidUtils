@@ -188,7 +188,7 @@ internal inline fun log(block: () -> Unit) {
  */
 fun initTimber(releaseTree: Timber.Tree?, debugTree: Timber.DebugTree = LineNumberDebugTree()) {
     if (BuildConfig.DEBUG) Timber.plant(debugTree)
-    else Timber.plant(releaseTree)
+    else releaseTree?.let { Timber.plant(it) }
 }
 
 class LineNumberDebugTree : Timber.DebugTree() {
