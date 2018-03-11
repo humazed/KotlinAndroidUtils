@@ -162,8 +162,8 @@ inline fun w(t: Throwable) = Timber.w(t)
 /** Log an error exception and a message that will be evaluated lazily when the message is printed */
 inline fun er(message: () -> String) = log { Timber.e(message()) }
 
-inline fun er(t: Throwable, message: () -> String) = log { Timber.e(t, message()) }
-inline fun er(t: Throwable) = Timber.e(t)
+inline fun er(t: Throwable?, message: () -> String) = log { Timber.e(t, message()) }
+inline fun er(t: Throwable?) = Timber.e(t)
 
 /** Log an assert exception and a message that will be evaluated lazily when the message is printed */
 inline fun wtf(message: () -> String) = log { Timber.wtf(message()) }

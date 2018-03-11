@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         val exception = NullPointerException("12345")
         er(exception)
         er(exception) { "exception" }
+        er(null)
     }
 
     private fun codifiedTest() {
