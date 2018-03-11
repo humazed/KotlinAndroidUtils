@@ -7,19 +7,12 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
 import android.preference.PreferenceManager.getDefaultSharedPreferences
-import android.support.annotation.StyleRes
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
 import android.view.ContextThemeWrapper
 import java.util.*
 
 const val KEY_LANGUAGE = "key_language"
-
-/**
- * @param  base the context for activity
- * @param themeResId activity theme ex: R.style.AppTheme
- */
-class ContextLocale(base: Context, @StyleRes themeResId: Int) : ContextThemeWrapper(base, themeResId)
 
 /**
  * @param  context the context for activity.
@@ -30,8 +23,8 @@ class ContextLocale(base: Context, @StyleRes themeResId: Int) : ContextThemeWrap
  */
 @Suppress("DEPRECATION")
 @SuppressLint("ObsoleteSdkInt")
-fun wrap(context: Context, activityLanguage: Language? = null): ContextThemeWrapper {
-    var context = context
+fun Activity.wrap(context: Context, activityLanguage: Language? = null): ContextThemeWrapper {
+    var context: Context = context
     val language = activityLanguage ?: context.getLanguage()
 
     val config = context.resources.configuration
@@ -46,7 +39,7 @@ fun wrap(context: Context, activityLanguage: Language? = null): ContextThemeWrap
             context = context.createConfigurationContext(config)
         } else context.resources.updateConfiguration(config, context.resources.displayMetrics)
     }
-    return ContextLocale(context, getThemeId(context))
+    return ContextThemeWrapper(context, getThemeId(this))
 }
 
 @Suppress("DEPRECATION")
@@ -55,12 +48,12 @@ private fun setSystemLocaleCompat(config: Configuration, locale: Locale) {
     else config.locale = locale
 }
 
-private fun getThemeId(context: Context): Int {
+private fun getThemeId(activity: Activity): Int {
     return try {
         val wrapper = ContextThemeWrapper::class.java
         val method = wrapper.getMethod("getThemeResId")
         method.isAccessible = true
-        method.invoke(context) as Int
+        method.invoke(activity) as Int
     } catch (e: Exception) {
         e.printStackTrace()
         0
