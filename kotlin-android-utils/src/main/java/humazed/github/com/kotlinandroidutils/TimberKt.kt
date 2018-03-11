@@ -193,6 +193,8 @@ fun initTimber(debuggable: Boolean, releaseTree: Timber.Tree? = null, debugTree:
 
 class LineNumberDebugTree : Timber.DebugTree() {
     override fun createStackElementTag(element: StackTraceElement): String? {
-        return "(${super.createStackElementTag(element)}.kt:${element.lineNumber})#${element.methodName}"
+        //remove the extra info and only get the class name.
+        val className = super.createStackElementTag(element)?.split("$")?.get(0)
+        return "($className.kt:${element.lineNumber})#${element.methodName}"
     }
 }

@@ -12,12 +12,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        d { "Locale.getDefault().language = ${Locale.getDefault().language}" }
+        d { "getLanguage() = ${getLanguage()}" }
+
         codifiedTest()
 
         logWithTimber()
-
-        d { "Locale.getDefault().language = ${Locale.getDefault().language}" }
-        d { "getLanguage() = ${getLanguage()}" }
     }
 
     private fun logWithTimber() {
@@ -41,10 +41,14 @@ class MainActivity : AppCompatActivity() {
         er { "log ${i++}" }
         wtf { "log ${i++}" }
 
-        val exception = NullPointerException("12345")
-        er(exception)
-        er(exception) { "exception" }
-        er(null)
+//        val exception = NullPointerException("12345")
+//        er(exception)
+//        er(exception) { "exception" }
+//        er(null)
+
+        "INNER".apply {
+                d { "this = ${this}" }
+        }
     }
 
     private fun codifiedTest() {
