@@ -186,8 +186,8 @@ internal inline fun log(block: () -> Unit) {
  * initialize Timber.
  * only need to provide [releaseTree] as [debugTree] is by default [LineNumberDebugTree]
  */
-fun initTimber(releaseTree: Timber.Tree?, debugTree: Timber.DebugTree = LineNumberDebugTree()) {
-    if (BuildConfig.DEBUG) Timber.plant(debugTree)
+fun initTimber(debuggable: Boolean, releaseTree: Timber.Tree? = null, debugTree: Timber.DebugTree = LineNumberDebugTree()) {
+    if (debuggable) Timber.plant(debugTree)
     else releaseTree?.let { Timber.plant(it) }
 }
 
