@@ -12,7 +12,7 @@ fun Activity.restart() {
 }
 
 /**
- * should be called before super.onCreate(savedInstanceState)
+ * should be called before [setContentView()]
  */
 fun Activity.setImmersiveScreen() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
