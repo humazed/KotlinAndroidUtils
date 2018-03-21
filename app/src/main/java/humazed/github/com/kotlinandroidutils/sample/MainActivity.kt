@@ -38,16 +38,24 @@ class MainActivity : AppCompatActivity() {
         d { "log ${i++}" }
         i { "log ${i++}" }
         w { "log ${i++}" }
-        er { "log ${i++}" }
+        e { "log ${i++}" }
         wtf { "log ${i++}" }
 
 //        val exception = NullPointerException("12345")
-//        er(exception)
+//        er { exception }
 //        er(exception) { "exception" }
 //        er(null)
 
         "INNER".apply {
+            5?.let {
                 d { "this = ${this}" }
+
+//                val exception = NullPointerException("12345")
+//                er { exception }
+//                er({ exception }) { "dsds" }
+//                er(exception) { "exception" }
+//                er(null)
+            }
         }
     }
 
