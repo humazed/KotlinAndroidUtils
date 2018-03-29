@@ -165,6 +165,7 @@ inline fun e(message: () -> String) = log { Timber.e(message()) }
 
 /** Used lambda because line number not working with regular methods.*/
 inline fun er(t: () -> Throwable?) = log { Timber.wtf(t()) }
+
 inline fun er(t: () -> Throwable?, message: () -> String) = log { Timber.e(t(), message()) }
 inline fun er(t: Throwable?, message: () -> String) = log { Timber.e(t, message()) }
 
@@ -189,6 +190,7 @@ internal inline fun log(block: () -> Unit) {
  * initialize Timber.
  * only need to provide [releaseTree] as [debugTree] is by default [LineNumberDebugTree]
  */
+@JvmOverloads
 fun initTimber(debuggable: Boolean, releaseTree: Timber.Tree? = null, debugTree: Timber.DebugTree = LineNumberDebugTree()) {
     if (debuggable) Timber.plant(debugTree)
     else releaseTree?.let { Timber.plant(it) }
