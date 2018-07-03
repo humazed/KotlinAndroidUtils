@@ -8,7 +8,7 @@ import timber.log.Timber
 // Static methods on the Timber object
 ///////////////////////////////////////////////////////////////////////////
 
-object Timber {
+private object Timber {
     /** Log a verbose exception and a message that will be evaluated lazily when the message is printed */
     @JvmStatic
     inline fun v(message: () -> String) = log { Timber.v(message()) }
@@ -198,8 +198,6 @@ fun initTimber(debuggable: Boolean, releaseTree: Timber.Tree? = null, debugTree:
 
 class LineNumberDebugTree : Timber.DebugTree() {
     override fun createStackElementTag(element: StackTraceElement): String? {
-        //remove the extra info and only get the class name.
-        val className = super.createStackElementTag(element)?.split("$")?.get(0)
-        return "($className.kt:${element.lineNumber})#${element.methodName}"
+        return "(${element.fileName}:${element.lineNumber})#${element.methodName}"
     }
 }

@@ -23,41 +23,35 @@ class MainActivity : AppCompatActivity() {
     private fun logWithTimber() {
         var i = 0
 
-        Timber.d { "log ${i++}" }
-        Timber.i { "log ${i++}" }
-        Timber.w { "log ${i++}" }
-        Timber.e { "log ${i++}" }
-        Timber.wtf { "log ${i++}" }
-
-        Timber.tag("Custom tag").d { "log ${i++}" }
-        Timber.tag("Custom tag").i { "log ${i++}" }
-        Timber.tag("Custom tag").w { "log ${i++}" }
-        Timber.tag("Custom tag").er { "log ${i++}" }
-        Timber.tag("Custom tag").wtf { "log ${i++}" }
-
         d { "log ${i++}" }
         i { "log ${i++}" }
         w { "log ${i++}" }
         e { "log ${i++}" }
         wtf { "log ${i++}" }
 
-//        val exception = NullPointerException("12345")
-//        er { exception }
-//        er(exception) { "exception" }
-//        er(null)
+
+        //        val exception = NullPointerException("12345")
+        //        er { exception }
+        //        er(exception) { "exception" }
+        //        er(null)
 
         "INNER".apply {
             5?.let {
                 d { "this = ${this}" }
 
-//                val exception = NullPointerException("12345")
-//                er { exception }
-//                er({ exception }) { "dsds" }
-//                er(exception) { "exception" }
-//                er(null)
+                //                val exception = NullPointerException("12345")
+                //                er { exception }
+                //                er({ exception }) { "dsds" }
+                //                er(exception) { "exception" }
+                //                er(null)
             }
         }
+
+        logFromFile()
+
+        LogTest.logFromJava()
     }
+
 
     private fun codifiedTest() {
         val decode = Language::class.decode("ar")
@@ -79,4 +73,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun attachBaseContext(newBase: Context?) = super.attachBaseContext(wrap(newBase!!))
+}
+
+private fun logFromFile() {
+    var i = 0
+
+    d { "logFromFile ${i++}" }
+    i { "logFromFile ${i++}" }
+    w { "logFromFile ${i++}" }
+    e { "logFromFile ${i++}" }
+    wtf { "logFromFile ${i++}" }
 }
