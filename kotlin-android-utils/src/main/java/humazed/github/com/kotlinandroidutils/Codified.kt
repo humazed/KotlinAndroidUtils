@@ -8,6 +8,8 @@ import kotlin.reflect.KClass
 /**
  * Help to reverse lookup on an enum.
  * From: https://stackoverflow.com/a/37796340/3998402
+ *
+ * usage sample: Language::class.tryDecode("ar")
  */
 interface Codified<out T : Serializable> {
     val code: T
@@ -29,19 +31,25 @@ interface Codified<out T : Serializable> {
 
         @Suppress("UNCHECKED_CAST")
         fun <T, TCode : Serializable> tryDecode(enumClass: Class<T>, code: TCode): T? where T : Codified<TCode> {
-            val valuesForEnumClass = enumCodesByClass.getOrPut(enumClass as Class<Enum<*>>, {
+            val valuesForEnumClass = enumCodesByClass.getOrPut(enumClass as Class<Enum<*>>) {
                 enumClass.enumConstants.associateBy { (it as T).code }
-            })
+            }
 
             return valuesForEnumClass[code] as T?
         }
     }
 }
 
+/**
+ * throw IllegalArgumentException if the enum doesn't contains the [code]
+ */
 fun <T, TCode> KClass<T>.decode(code: TCode): T
         where T : Codified<TCode>, T : Enum<T>, TCode : Serializable
         = Enums.decode(java, code)
 
+/**
+ * returns null if the enum doesn't contains the [code]
+ */
 fun <T, TCode> KClass<T>.tryDecode(code: TCode): T?
         where T : Codified<TCode>, T : Enum<T>, TCode : Serializable
         = Enums.tryDecode(java, code)

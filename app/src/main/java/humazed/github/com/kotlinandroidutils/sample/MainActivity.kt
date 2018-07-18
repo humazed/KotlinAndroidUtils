@@ -12,12 +12,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+
         d { "Locale.getDefault().language = ${Locale.getDefault().language}" }
         d { "getLanguage() = ${getLanguage()}" }
 
         codifiedTest()
 
         logWithTimber()
+
+        testCodified()
+    }
+
+    private fun testCodified() {
+        d { "Language::class.tryDecode(\" ar \") = ${Language::class.tryDecode("ar")}" }
+        d { "Language::class.tryDecode(\" lol \") = ${Language::class.tryDecode("lol")}" }
     }
 
     private fun logWithTimber() {
