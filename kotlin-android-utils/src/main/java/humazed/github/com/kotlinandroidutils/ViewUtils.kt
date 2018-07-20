@@ -2,8 +2,11 @@
 
 package humazed.github.com.kotlinandroidutils
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.View.*
+import android.widget.EditText
 
 var View.visible
     get() = visibility == VISIBLE
@@ -39,4 +42,19 @@ inline fun View.setSize(width: Int, height: Int) {
     params.width = width
     params.height = height
     layoutParams = params
+}
+
+inline fun EditText.onTextChange(crossinline f: (s: CharSequence, start: Int, before: Int, count: Int) -> Unit) {
+    val listener = object : KoiTextWatcher() {
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            f(s, start, before, count)
+        }
+    }
+    this.addTextChangedListener(listener)
+}
+
+abstract class KoiTextWatcher : TextWatcher {
+    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+    override fun afterTextChanged(s: Editable) {}
 }
