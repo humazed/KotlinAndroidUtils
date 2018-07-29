@@ -3,7 +3,6 @@ package humazed.github.com.kotlinandroidutils
 import android.app.ActivityManager
 import android.app.Service
 import android.content.Context
-import android.util.Log
 
 /**
  * Check if the service is running in the device.
@@ -19,7 +18,7 @@ fun Context.isServiceRunning(serviceClass: Class<*>): Boolean {
             if (serviceClass.name == service.service.className) return true
         }
     } catch (e: Exception) {
-        Log.e("ServiceUtils", Log.getStackTraceString(e))
+        er { e }
     }
     return false
 }
