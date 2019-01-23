@@ -2,7 +2,7 @@ package humazed.github.com.kotlinandroidutils.sample
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import humazed.github.com.kotlinandroidutils.*
 import java.util.*
 

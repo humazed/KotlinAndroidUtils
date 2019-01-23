@@ -3,15 +3,15 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 19
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -27,18 +27,18 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.robolectric:robolectric:3.8'
     testImplementation 'org.assertj:assertj-core:3.8.0'
 
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0-alpha4', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation "com.android.support:appcompat-v7:$support_version"
-    implementation "com.android.support:recyclerview-v7:$support_version"
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation "androidx.recyclerview:recyclerview:1.0.0"
 
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40'
+
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44'
 
     api 'com.jakewharton.timber:timber:4.7.1'
 }

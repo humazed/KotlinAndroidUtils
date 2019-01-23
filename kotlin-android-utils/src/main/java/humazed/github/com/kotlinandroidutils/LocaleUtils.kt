@@ -7,8 +7,8 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
 import android.preference.PreferenceManager.getDefaultSharedPreferences
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.ActivityOptionsCompat
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityOptionsCompat
 import android.view.ContextThemeWrapper
 import java.util.*
 

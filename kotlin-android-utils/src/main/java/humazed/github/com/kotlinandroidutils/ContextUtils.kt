@@ -8,8 +8,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.preference.PreferenceManager
-import android.support.annotation.IdRes
-import android.support.v4.app.Fragment
+import androidx.annotation.IdRes
+import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
 
@@ -30,7 +30,7 @@ inline fun <reified T : View> Dialog.find(@IdRes id: Int): T = findViewById(id)
 
 inline fun <reified T : View> View.findOptional(@IdRes id: Int): T? = findViewById(id) as? T
 inline fun <reified T : View> Activity.findOptional(@IdRes id: Int): T? = findViewById(id) as? T
-inline fun <reified T : View> Fragment.findOptional(@IdRes id: Int): T? = view?.findViewById(id) as? T
+inline fun <reified T : View> androidx.fragment.app.Fragment.findOptional(@IdRes id: Int): T? = view?.findViewById(id) as? T
 
 inline fun <reified T : View> Dialog.findOptional(@IdRes id: Int): T? = findViewById(id) as? T
 
