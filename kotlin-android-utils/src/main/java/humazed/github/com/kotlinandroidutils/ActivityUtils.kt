@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.view.View
+import androidx.fragment.app.Fragment
 
 
 fun Activity.restart() {
@@ -36,6 +37,18 @@ fun Activity.setImmersiveScreen() {
  */
 inline fun <reified A : Activity> Context.start(configIntent: Intent.() -> Unit = {}) {
     startActivity(Intent(this, A::class.java).apply(configIntent))
+}
+
+/**
+ * Example:
+ * ```
+ * start<MainActivity> {
+ *    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+ * }
+ * ```
+ */
+inline fun <reified A : Activity> Fragment.start(configIntent: Intent.() -> Unit = {}) {
+    startActivity(Intent(activity, A::class.java).apply(configIntent))
 }
 
 /**
