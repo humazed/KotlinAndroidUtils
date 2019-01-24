@@ -7,9 +7,9 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
 import android.preference.PreferenceManager.getDefaultSharedPreferences
+import android.view.ContextThemeWrapper
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityOptionsCompat
-import android.view.ContextThemeWrapper
 import java.util.*
 
 const val KEY_LANGUAGE = "key_language"

@@ -1,8 +1,5 @@
 package humazed.github.com.kotlinandroidutils
 
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-
 /**
  * User: YourPc
  * Date: 3/12/2018
