@@ -2,6 +2,7 @@ package humazed.github.com.kotlinandroidutils
 
 import android.view.View
 import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import kotlinx.android.extensions.LayoutContainer
@@ -53,6 +54,30 @@ fun <T> simpleAdapter(@LayoutRes layoutResId: Int,
                       onItemClick: ((item: T) -> Unit)? = null
 ): BaseAdapter<T> =
         simpleAdapter(layoutResId, items, map, { _, item -> onItemClick?.invoke(item) })
+
+/**
+ * convenient method to set the simple adapter to RecyclerView
+ * use it in case you don't need to reuse the adapter
+ */
+fun <T> RecyclerView.setSimpleAdapter(@LayoutRes layoutResId: Int,
+                                items: List<T>,
+                                map: KBaseViewHolder.(item: T) -> Unit,
+                                onItemClick: ((position: Int, item: T) -> Unit)? = null
+): BaseAdapter<T> =
+        simpleAdapter(layoutResId, items, map, onItemClick).also { adapter = it }
+
+/**
+ * convenient method to set the simple adapter to RecyclerView
+ * use it in case you don't need to reuse the adapter
+ */
+fun <T> RecyclerView.setSimpleAdapter(@LayoutRes layoutResId: Int,
+                                items: List<T>,
+                                map: KBaseViewHolder.(item: T) -> Unit,
+                                onItemClick: ((item: T) -> Unit)? = null
+): BaseAdapter<T> =
+        simpleAdapter(layoutResId, items, map, { _, item -> onItemClick?.invoke(item) }).also {
+            adapter = it
+        }
 
 
 /**
