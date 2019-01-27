@@ -5,5 +5,5 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 
 fun ImageView.load(context: Context, url: String?) {
-    url?.let { Glide.with(context).load(it).into(this) }
+    if (!url.isNullOrBlank()) Glide.with(context).load(url).into(this)
 }
