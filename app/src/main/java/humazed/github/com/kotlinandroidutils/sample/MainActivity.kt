@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import humazed.github.com.kotlinandroidutils.*
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.row_simple_text.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +24,8 @@ class MainActivity : AppCompatActivity() {
         logWithTimber()
 
         testCodified()
+
+        setupRecycler()
     }
 
     private fun testCodified() {
@@ -76,12 +80,42 @@ class MainActivity : AppCompatActivity() {
         d { "decode3 = $decode3" }
     }
 
+
+    private fun setupRecycler() {
+        val items = listOf(Item("1"), Item("2"))
+
+        recycler.adapter = simpleAdapter(R.layout.row_simple_text, items, {
+            it.apply {
+                textView.text = text
+            }
+        }) { position, item ->
+            d { "item = $item" }
+        }
+
+        recycler.adapter = SimpleTextAdapter(items).onItemClick { item ->
+            d { "item = $item" }
+        }
+    }
+
+
     override fun onResume() {
         super.onResume()
         onResumeLocaleDelegate()
     }
 
     override fun attachBaseContext(newBase: Context?) = super.attachBaseContext(wrap(newBase!!))
+}
+
+data class Item(val text: String)
+
+class SimpleTextAdapter(items: List<Item>) : BaseAdapter<Item>(R.layout.row_simple_text, items) {
+    override fun convert(holder: KBaseViewHolder, item: Item) {
+        holder.apply {
+            item.apply {
+                textView.text = text
+            }
+        }
+    }
 }
 
 private fun logFromFile() {
