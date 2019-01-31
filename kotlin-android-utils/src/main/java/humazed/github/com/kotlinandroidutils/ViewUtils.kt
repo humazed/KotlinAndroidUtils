@@ -2,11 +2,15 @@
 
 package humazed.github.com.kotlinandroidutils
 
+import android.content.res.ColorStateList
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.View.*
 import android.widget.EditText
+import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 
 var View.visible
     get() = visibility == VISIBLE
@@ -42,6 +46,12 @@ inline fun View.setSize(width: Int, height: Int) {
     params.width = width
     params.height = height
     layoutParams = params
+}
+
+fun View.setBackgroundTint(@ColorRes colorRes: Int) {
+    ViewCompat.setBackgroundTintList(
+            this, ColorStateList.valueOf(ContextCompat.getColor(this.context, colorRes))
+    )
 }
 
 inline fun EditText.onTextChange(crossinline f: (s: CharSequence, start: Int, before: Int, count: Int) -> Unit) {
