@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">KotlinAndroidUtils</string>
+
+    <string name="no_internet_connection">No internet connection</string>
 </resources>
