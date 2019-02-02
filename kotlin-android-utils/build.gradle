@@ -47,4 +47,6 @@ dependencies {
     api 'com.jakewharton.timber:timber:4.7.1'
 
     api("org.jetbrains.anko:anko:0.10.8") { exclude group: 'com.google.android', module: 'android' }
+
+    implementation 'com.github.searchy2:CustomImagePicker:2.2.1'
 }
