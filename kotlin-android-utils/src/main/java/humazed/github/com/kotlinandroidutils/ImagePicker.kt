@@ -62,10 +62,10 @@ fun Activity.pickImage(onItemSelected: (imageFile: File) -> Unit) {
     bottomSheetDialog.show()
 }
 
-fun Activity.imagePickerOnActivityResult(requestCode: Int, resultCode: Int, data: Intent): File {
+fun Activity.imagePickerOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?): File {
     val imageUri = when (requestCode) {
-        CAPTURE_IMAGE -> if (resultCode == Activity.RESULT_OK) data.data else null
-        SELECT_PHOTO -> if (resultCode == Activity.RESULT_OK) data.data else null
+        CAPTURE_IMAGE -> if (resultCode == Activity.RESULT_OK) data?.data else null
+        SELECT_PHOTO -> if (resultCode == Activity.RESULT_OK) data?.data else null
         else -> null
     }
 
