@@ -13,12 +13,7 @@ fun <T> Call<T>.call(progressBar: View?, onResult: (responseBody: T, response: R
         enqueue(object : Callback<T> {
             override fun onResponse(call: Call<T>, response: Response<T>) {
                 progressBar?.hide()
-                if (response.isSuccessful) {
-                    response.body()?.let { onResult(it, response) } ?: e { "Response Null" }
-                } else {
-                    e { "${response.errorBody()}" }
-                    context?.toast(context.getString(R.string.error_happened) ?: "حدث خطأ")
-                }
+                response.body()?.let { onResult(it, response) } ?: e { "Response Null" }
             }
 
             override fun onFailure(call: Call<T>, t: Throwable) {
@@ -33,12 +28,22 @@ fun <T> Call<T>.call(progressBar: View?, onResult: (responseBody: T, response: R
     }
 }
 
-fun <T> Call<T>.call(progressBar: View?, onResult: (responseBody: T) -> Unit) =
-        call(progressBar) { responseBody, response -> onResult(responseBody) }
+fun <T> Call<T>.call(progressBar: View?, onResult: (responseBody: T) -> Unit) {
+    val context = progressBar?.context
+    call(progressBar) { responseBody, response ->
+        if (response.isSuccessful) {
+            response.body()?.let { onResult(responseBody) } ?: e { "Response Null" }
+        } else {
+            e { "${response.errorBody()}" }
+            context?.toast(context.getString(R.string.error_happened) ?: "حدث خطأ")
+        }
+
+    }
+}
 
 
 fun <T> Call<T>.onSuccess(onResult: (responseBody: T, response: Response<T>) -> Unit) =
         call(null) { responseBody, response -> onResult(responseBody, response) }
 
 fun <T> Call<T>.onSuccess(onResult: (responseBody: T) -> Unit) =
-        onSuccess { responseBody, response -> onResult(responseBody) }
+        call(null) { responseBody -> onResult(responseBody) }
