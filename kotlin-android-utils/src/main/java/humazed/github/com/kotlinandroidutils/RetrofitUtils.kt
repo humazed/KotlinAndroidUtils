@@ -13,14 +13,18 @@ fun <T> Call<T>.call(progressBar: View?, onResult: (responseBody: T, response: R
         enqueue(object : Callback<T> {
             override fun onResponse(call: Call<T>, response: Response<T>) {
                 progressBar?.hide()
-                if (response.isSuccessful)
+                if (response.isSuccessful) {
                     response.body()?.let { onResult(it, response) } ?: e { "Response Null" }
-                else e { "${response.errorBody()}" }
+                } else {
+                    e { "${response.errorBody()}" }
+                    context?.toast(context.getString(R.string.error_happened) ?: "حدث خطأ")
+                }
             }
 
             override fun onFailure(call: Call<T>, t: Throwable) {
                 progressBar?.hide()
                 er { t }
+                context?.toast(context.getString(R.string.error_happened) ?: "حدث خطأ")
             }
         })
     } else {
