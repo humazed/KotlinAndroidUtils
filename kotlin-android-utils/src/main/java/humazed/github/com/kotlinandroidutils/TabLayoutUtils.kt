@@ -18,6 +18,9 @@ fun AppCompatActivity.setupTabs(tabLayout: TabLayout, viewPager: ViewPager, tabs
     tabs.forEachIndexed { index, tab -> tabLayout.getTabAt(index)?.setIcon(tab.iconRes) }
 }
 
+fun Fragment.setupTabs(tabLayout: TabLayout, viewPager: ViewPager, tabs: List<Tab>) {
+    (requireActivity() as AppCompatActivity).setupTabs(tabLayout, viewPager, tabs)
+}
 
 data class Tab(@StringRes val nameRes: Int, @DrawableRes val iconRes: Int, val fragment: Fragment)
 
