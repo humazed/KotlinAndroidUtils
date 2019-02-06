@@ -11,18 +11,20 @@ import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 
 
-fun AppCompatActivity.setupTabs(tabLayout: TabLayout, viewPager: ViewPager, tabs: List<Tab>) {
-    viewPager.adapter = SectionsPagerAdapter(this, supportFragmentManager, tabs)
-    tabLayout.setupWithViewPager(viewPager)
+fun AppCompatActivity.setupTabs(tabLayout: TabLayout?, viewPager: ViewPager?, tabs: List<Tab>) {
+    viewPager?.adapter = SectionsPagerAdapter(this, supportFragmentManager, tabs)
+    tabLayout?.setupWithViewPager(viewPager)
+
     // setup Tab Icons
-    tabs.forEachIndexed { index, tab -> tabLayout.getTabAt(index)?.setIcon(tab.iconRes) }
+    if (tabs[0].iconRes != null) // if the first tab has icon then the rest will have one
+        tabs.forEachIndexed { index, tab -> tabLayout?.getTabAt(index)?.setIcon(tab.iconRes!!) }
 }
 
 fun Fragment.setupTabs(tabLayout: TabLayout, viewPager: ViewPager, tabs: List<Tab>) {
     (requireActivity() as AppCompatActivity).setupTabs(tabLayout, viewPager, tabs)
 }
 
-data class Tab(@StringRes val nameRes: Int, @DrawableRes val iconRes: Int, val fragment: Fragment)
+data class Tab(val fragment: Fragment, @StringRes val nameRes: Int, @DrawableRes val iconRes: Int? = null)
 
 class SectionsPagerAdapter(val context: Context, fm: FragmentManager, val tabs: List<Tab>) : FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment? = tabs[position].fragment
