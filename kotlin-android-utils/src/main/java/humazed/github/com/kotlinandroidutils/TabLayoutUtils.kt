@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 
-
 fun AppCompatActivity.setupTabs(tabLayout: TabLayout?, viewPager: ViewPager?, tabs: List<Tab>) {
     viewPager?.adapter = SectionsPagerAdapter(this, supportFragmentManager, tabs)
     tabLayout?.setupWithViewPager(viewPager)
@@ -21,7 +20,10 @@ fun AppCompatActivity.setupTabs(tabLayout: TabLayout?, viewPager: ViewPager?, ta
 }
 
 fun Fragment.setupTabs(tabLayout: TabLayout?, viewPager: ViewPager?, tabs: List<Tab>) {
-    (requireActivity() as AppCompatActivity).setupTabs(tabLayout, viewPager, tabs)
+    try {//don't crash if the activity is null my happen if user keep refreshing the page
+        (requireActivity() as AppCompatActivity).setupTabs(tabLayout, viewPager, tabs)
+    } catch (e: Exception) {
+    }
 }
 
 data class Tab(val fragment: Fragment, @StringRes val nameRes: Int, @DrawableRes val iconRes: Int? = null)
