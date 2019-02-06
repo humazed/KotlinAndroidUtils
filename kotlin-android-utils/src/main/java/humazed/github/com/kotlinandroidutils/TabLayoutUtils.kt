@@ -20,9 +20,13 @@ fun AppCompatActivity.setupTabs(tabLayout: TabLayout?, viewPager: ViewPager?, ta
 }
 
 fun Fragment.setupTabs(tabLayout: TabLayout?, viewPager: ViewPager?, tabs: List<Tab>) {
-    try {//don't crash if the activity is null my happen if user keep refreshing the page
-        (requireActivity() as AppCompatActivity).setupTabs(tabLayout, viewPager, tabs)
-    } catch (e: Exception) {
+    context?.let { context ->
+        viewPager?.adapter = SectionsPagerAdapter(context, childFragmentManager, tabs)
+        tabLayout?.setupWithViewPager(viewPager)
+
+        // setup Tab Icons
+        if (tabs[0].iconRes != null) // if the first tab has icon then the rest will have one
+            tabs.forEachIndexed { index, tab -> tabLayout?.getTabAt(index)?.setIcon(tab.iconRes!!) }
     }
 }
 
