@@ -20,7 +20,7 @@ fun AppCompatActivity.setupTabs(tabLayout: TabLayout?, viewPager: ViewPager?, ta
         tabs.forEachIndexed { index, tab -> tabLayout?.getTabAt(index)?.setIcon(tab.iconRes!!) }
 }
 
-fun Fragment.setupTabs(tabLayout: TabLayout, viewPager: ViewPager, tabs: List<Tab>) {
+fun Fragment.setupTabs(tabLayout: TabLayout?, viewPager: ViewPager?, tabs: List<Tab>) {
     (requireActivity() as AppCompatActivity).setupTabs(tabLayout, viewPager, tabs)
 }
 
