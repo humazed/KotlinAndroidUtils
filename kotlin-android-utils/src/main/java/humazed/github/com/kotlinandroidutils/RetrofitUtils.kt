@@ -2,11 +2,14 @@ package humazed.github.com.kotlinandroidutils
 
 import android.view.View
 import android.widget.EditText
+import okhttp3.MediaType
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 
 fun <T> Call<T>.call(progressBar: View?, onResult: (responseBody: T, response: Response<T>) -> Unit) {
     val context = progressBar?.context
@@ -51,6 +54,12 @@ fun <T> Call<T>.onSuccess(onResult: (responseBody: T) -> Unit) =
         call(null) { responseBody -> onResult(responseBody) }
 
 
+// Multipart helpers
 fun EditText.textPart() = MultipartBody.create(MultipartBody.FORM, text.toString())
 
 fun String.part() = MultipartBody.create(MultipartBody.FORM, this)
+
+fun File.part(requestName: String, mimeType: String = "image/*"): MultipartBody.Part {
+    val requestFile = RequestBody.create(MediaType.parse(mimeType), this)
+    return MultipartBody.Part.createFormData(requestName, name, requestFile)
+}
