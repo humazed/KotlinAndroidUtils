@@ -1,6 +1,8 @@
 package humazed.github.com.kotlinandroidutils
 
 import android.view.View
+import android.widget.EditText
+import okhttp3.MultipartBody
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -47,3 +49,8 @@ fun <T> Call<T>.onSuccess(onResult: (responseBody: T, response: Response<T>) -> 
 
 fun <T> Call<T>.onSuccess(onResult: (responseBody: T) -> Unit) =
         call(null) { responseBody -> onResult(responseBody) }
+
+
+fun EditText.textPart() = MultipartBody.create(MultipartBody.FORM, text.toString())
+
+fun String.part() = MultipartBody.create(MultipartBody.FORM, this)
