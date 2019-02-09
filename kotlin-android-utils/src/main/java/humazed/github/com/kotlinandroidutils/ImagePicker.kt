@@ -1,5 +1,6 @@
 package humazed.github.com.kotlinandroidutils
 
+import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.content.ContentUris
@@ -7,9 +8,13 @@ import android.content.Intent
 import android.provider.MediaStore
 import android.view.Gravity
 import android.widget.LinearLayout
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.TedPermission
+import org.jetbrains.anko.longToast
 import stream.customimagepicker.CustomImagePicker
 import stream.jess.ui.TwoWayGridView
 import java.io.File
+import java.util.*
 
 private const val CAPTURE_IMAGE = 0
 private const val SELECT_PHOTO = 1
@@ -32,13 +37,29 @@ fun Activity.pickImage(onItemSelected: (imageFile: File) -> Unit) {
     val layoutGallery = bottomSheet.findViewById<LinearLayout>(R.id.btn_gallery)
     layoutCamera.setOnClickListener {
         val cameraIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(cameraIntent, CAPTURE_IMAGE)
+
+//        startActivityForResult(cameraIntent, CAPTURE_IMAGE)
+        startActivityForResult(cameraIntent) { data ->
+            data.data?.let { imageUri ->
+                getFilePath(imageUri)?.let {
+                    onItemSelected(File(it))
+                }
+            }
+        }
         bottomSheetDialog.dismiss()
     }
     layoutGallery.setOnClickListener {
         val photoPickerIntent = Intent(Intent.ACTION_PICK)
         photoPickerIntent.type = "image/*"
-        startActivityForResult(photoPickerIntent, SELECT_PHOTO)
+
+//        startActivityForResult(photoPickerIntent, SELECT_PHOTO)
+        startActivityForResult(photoPickerIntent) { data ->
+            data.data?.let { imageUri ->
+                getFilePath(imageUri)?.let {
+                    onItemSelected(File(it))
+                }
+            }
+        }
         bottomSheetDialog.dismiss()
     }
 
@@ -72,3 +93,19 @@ fun Activity.imagePickerOnActivityResult(requestCode: Int, resultCode: Int, data
     return imageUri?.let { File(getFilePath(it)) }
 }
 
+fun Activity.pickImageWithPermission(onItemSelected: (imageFile: File) -> Unit): Unit {
+    val permissionListener = object : PermissionListener {
+        override fun onPermissionGranted() {
+            pickImage(onItemSelected)
+        }
+
+        override fun onPermissionDenied(deniedPermissions: ArrayList<String>) {
+            longToast("Permission Denied\n$deniedPermissions")
+        }
+    }
+    TedPermission.with(this)
+            .setPermissionListener(permissionListener)
+            .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+            .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+            .check()
+}

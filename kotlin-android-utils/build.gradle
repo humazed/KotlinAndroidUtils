@@ -49,4 +49,7 @@ dependencies {
     api("org.jetbrains.anko:anko:0.10.8") { exclude group: 'com.google.android', module: 'android' }
 
     implementation 'com.github.searchy2:CustomImagePicker:2.2.1'
+    implementation 'gun0912.ted:tedonactivityresult:1.0.6'
+    implementation 'gun0912.ted:tedpermission:2.2.0'
+
 }
