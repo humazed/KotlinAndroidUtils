@@ -35,10 +35,9 @@ fun <T> simpleAdapter(@LayoutRes layoutResId: Int,
         override fun convert(holder: KBaseViewHolder, item: T) {
             holder.map(item)
         }
-
-        override fun setOnItemClick(v: View?, position: Int) {
-            super.setOnItemClick(v, position)
-            onItemClick?.invoke(position, items[position])
+    }.apply {
+        onItemClick { position, item ->
+            onItemClick?.invoke(position, item)
         }
     }
 }
@@ -60,9 +59,9 @@ fun <T> simpleAdapter(@LayoutRes layoutResId: Int,
  * use it in case you don't need to reuse the adapter
  */
 fun <T> RecyclerView.setSimpleAdapter(@LayoutRes layoutResId: Int,
-                                items: List<T>,
-                                map: KBaseViewHolder.(item: T) -> Unit,
-                                onItemClick: ((position: Int, item: T) -> Unit)? = null
+                                      items: List<T>,
+                                      map: KBaseViewHolder.(item: T) -> Unit,
+                                      onItemClick: ((position: Int, item: T) -> Unit)? = null
 ): BaseAdapter<T> =
         simpleAdapter(layoutResId, items, map, onItemClick).also { adapter = it }
 
@@ -71,9 +70,9 @@ fun <T> RecyclerView.setSimpleAdapter(@LayoutRes layoutResId: Int,
  * use it in case you don't need to reuse the adapter
  */
 fun <T> RecyclerView.setSimpleAdapter(@LayoutRes layoutResId: Int,
-                                items: List<T>,
-                                map: KBaseViewHolder.(item: T) -> Unit,
-                                onItemClick: ((item: T) -> Unit)? = null
+                                      items: List<T>,
+                                      map: KBaseViewHolder.(item: T) -> Unit,
+                                      onItemClick: ((item: T) -> Unit)? = null
 ): BaseAdapter<T> =
         simpleAdapter(layoutResId, items, map, { _, item -> onItemClick?.invoke(item) }).also {
             adapter = it
