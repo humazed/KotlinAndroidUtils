@@ -25,7 +25,7 @@ import java.util.*
 /**
  *  @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
  */
-fun Activity.pickImage(onItemSelected: (imageFile: File) -> Unit) {
+fun Activity.pickImage(onItemSelected: (imageFile: File, uri: Uri) -> Unit) {
     d { "initImagePickerDialog() called with:" }
     //Initialize Image Picker Dialogue Popup.
     val bottomSheet = layoutInflater.inflate(R.layout.bottom_sheet, null)
@@ -39,12 +39,9 @@ fun Activity.pickImage(onItemSelected: (imageFile: File) -> Unit) {
     val layoutCamera = bottomSheet.findViewById<LinearLayout>(R.id.btn_camera)
     val layoutGallery = bottomSheet.findViewById<LinearLayout>(R.id.btn_gallery)
     layoutCamera.setOnClickListener {
-        dispatchTakePicture { data ->
-            data.data?.let { imageUri ->
-                getFilePath(imageUri)?.let {
-                    onItemSelected(File(it))
-                }
-            }
+        dispatchTakePicture { imageFile ->
+            val uri: Uri = FileProvider.getUriForFile(this, "$packageName.fileprovider", imageFile)
+            onItemSelected(imageFile, uri)
         }
         bottomSheetDialog.dismiss()
     }
@@ -54,7 +51,8 @@ fun Activity.pickImage(onItemSelected: (imageFile: File) -> Unit) {
         startActivityForResult(photoPickerIntent) { data ->
             data.data?.let { imageUri ->
                 getFilePath(imageUri)?.let {
-                    onItemSelected(File(it))
+                    val file = File(it)
+                    onItemSelected(file, file.toUri())
                 }
             }
         }
@@ -73,15 +71,17 @@ fun Activity.pickImage(onItemSelected: (imageFile: File) -> Unit) {
 
     gridView.setOnItemClickListener { _, _, _, id ->
         val imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
-
-        getFilePath(imageUri)?.let { onItemSelected(File(it)) }
+        getFilePath(imageUri)?.let {
+            val file = File(it)
+            onItemSelected(file, file.toUri())
+        }
         bottomSheetDialog.dismiss()
     }
 
     bottomSheetDialog.show()
 }
 
-fun Activity.pickImageWithPermission(onItemSelected: (imageFile: File) -> Unit): Unit {
+fun Activity.pickImageWithPermission(onItemSelected: (imageFile: File, uri: Uri) -> Unit): Unit {
     val permissionListener = object : PermissionListener {
         override fun onPermissionGranted() {
             pickImage(onItemSelected)
@@ -98,7 +98,7 @@ fun Activity.pickImageWithPermission(onItemSelected: (imageFile: File) -> Unit):
             .check()
 }
 
-private fun Context.dispatchTakePicture(onSuccess: (data: Intent) -> Unit) {
+private fun Context.dispatchTakePicture(onSuccess: (imageFile: File) -> Unit) {
     Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
         // Ensure that there's a camera activity to handle the intent
         takePictureIntent.resolveActivity(packageManager)?.also {
@@ -111,11 +111,11 @@ private fun Context.dispatchTakePicture(onSuccess: (data: Intent) -> Unit) {
             }
             // Continue only if the File was successfully created
             photoFile?.also {
-                val photoURI: Uri = FileProvider.getUriForFile(this, "com.example.android.fileprovider", it)
+                val photoURI: Uri = FileProvider.getUriForFile(this, "$packageName.fileprovider", it)
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                 startActivityForResult(takePictureIntent) { data ->
                     galleryAddPic(photoFile)
-                    onSuccess(data)
+                    onSuccess(photoFile)
                 }
             }
         }

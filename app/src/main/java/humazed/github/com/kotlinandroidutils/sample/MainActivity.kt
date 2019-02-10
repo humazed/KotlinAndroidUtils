@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
+        imagePickerBt.setOnClickListener { start<ImagePickerTestActivity> { } }
 
         d { "Locale.getDefault().language = ${Locale.getDefault().language}" }
         d { "getLanguage() = ${getLanguage()}" }

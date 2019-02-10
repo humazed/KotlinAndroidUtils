@@ -14,7 +14,6 @@ fun Context.getFilePath(imageUri: Uri): String? {
     val filePath = DocumentHelper.getPath(this, imageUri)
     //Safety check to prevent null pointer exception
     if (filePath == null || filePath.isEmpty()) return null
-    d { "filePath = $filePath" }
     return filePath
 }
 
