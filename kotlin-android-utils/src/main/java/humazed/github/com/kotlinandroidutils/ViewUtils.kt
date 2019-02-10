@@ -54,6 +54,10 @@ fun View.setBackgroundTint(@ColorRes colorRes: Int) {
     )
 }
 
+fun List<View>.setOnClickListener(onClickListener: (l: View) -> Unit) {
+    forEach { it.setOnClickListener(onClickListener) }
+}
+
 inline fun EditText.onTextChange(crossinline f: (s: CharSequence, start: Int, before: Int, count: Int) -> Unit) {
     val listener = object : KoiTextWatcher() {
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
