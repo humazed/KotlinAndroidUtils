@@ -22,9 +22,6 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-private const val CAPTURE_IMAGE = 0
-private const val SELECT_PHOTO = 1
-
 /**
  *  @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
  */
