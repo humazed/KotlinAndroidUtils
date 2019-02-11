@@ -60,6 +60,8 @@ fun EditText.textPart() = MultipartBody.create(MultipartBody.FORM, text.toString
 fun String.part() = MultipartBody.create(MultipartBody.FORM, this)
 
 fun File.part(requestName: String, mimeType: String = "image/*"): MultipartBody.Part {
+    // okHttp doesn't accept non ascii chars and crashes the app
+    val asciiName = name.replace(Regex("[^A-Za-z0-9 ]"), "")
     val requestFile = RequestBody.create(MediaType.parse(mimeType), this)
-    return MultipartBody.Part.createFormData(requestName, name, requestFile)
+    return MultipartBody.Part.createFormData(requestName, asciiName, requestFile)
 }
