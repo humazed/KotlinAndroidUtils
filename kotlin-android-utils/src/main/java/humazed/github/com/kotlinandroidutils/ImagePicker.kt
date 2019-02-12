@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.reflect.KProperty
 
+// added to cash the bottomSheet as it was crashing the app when opening multiple times
 private val Activity.bottomSheetPicker: Pair<View, Dialog> by LazyWithReceiver<Activity, Pair<View, Dialog>> {
     //Initialize Image Picker Dialogue Popup.
     val bottomSheet = layoutInflater.inflate(R.layout.bottom_sheet, null)
