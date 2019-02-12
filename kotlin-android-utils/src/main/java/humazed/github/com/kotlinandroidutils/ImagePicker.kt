@@ -22,7 +22,6 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.reflect.KProperty
 
 // added to cash the bottomSheet as it was crashing the app when opening multiple times
 private val Activity.bottomSheetPicker: Pair<View, Dialog> by LazyWithReceiver<Activity, Pair<View, Dialog>> {
@@ -88,7 +87,7 @@ fun Activity.pickImage(onItemSelected: (imageFile: File, uri: Uri) -> Unit) {
     bottomSheetDialog.show()
 }
 
-fun Activity.pickImageWithPermission(onItemSelected: (imageFile: File, uri: Uri) -> Unit): Unit {
+fun Activity.pickImageWithPermission(onItemSelected: (imageFile: File, uri: Uri) -> Unit) {
     val permissionListener = object : PermissionListener {
         override fun onPermissionGranted() {
             pickImage(onItemSelected)
@@ -120,7 +119,7 @@ private fun Context.dispatchTakePicture(onSuccess: (imageFile: File) -> Unit) {
             photoFile?.also {
                 val photoURI: Uri = FileProvider.getUriForFile(this, "$packageName.fileprovider", it)
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                startActivityForResult(takePictureIntent) { data ->
+                startActivityForResult(takePictureIntent) { _ ->
                     galleryAddPic(photoFile)
                     onSuccess(photoFile)
                 }
