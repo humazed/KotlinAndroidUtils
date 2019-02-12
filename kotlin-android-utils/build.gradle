@@ -3,7 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.github.dcendents.android-maven'
 
-group='com.github.humazed'
+group = 'com.github.humazed'
+version = '1.8.8'
 
 android {
     compileSdkVersion 28
