@@ -10,6 +10,7 @@ import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.Gravity
+import android.view.View
 import android.widget.LinearLayout
 import androidx.core.content.FileProvider
 import com.gun0912.tedpermission.PermissionListener
@@ -21,19 +22,23 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.reflect.KProperty
 
-/**
- *  @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
- */
-fun Activity.pickImage(onItemSelected: (imageFile: File, uri: Uri) -> Unit) {
-    d { "initImagePickerDialog() called with:" }
+private val Activity.bottomSheetPicker: Pair<View, Dialog> by LazyWithReceiver<Activity, Pair<View, Dialog>> {
     //Initialize Image Picker Dialogue Popup.
     val bottomSheet = layoutInflater.inflate(R.layout.bottom_sheet, null)
-    val bottomSheetDialog = Dialog(this, R.style.MaterialDialogSheet)
-    bottomSheetDialog.setContentView(bottomSheet)
-    bottomSheetDialog.setCancelable(true)
-    bottomSheetDialog.window?.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-    bottomSheetDialog.window?.setGravity(Gravity.BOTTOM)
+    val bottomSheetDialog = Dialog(this, R.style.MaterialDialogSheet).apply {
+        setContentView(bottomSheet)
+        setCancelable(true)
+        window?.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        window?.setGravity(Gravity.BOTTOM)
+    }
+
+    Pair(bottomSheet, bottomSheetDialog)
+}
+
+fun Activity.pickImage(onItemSelected: (imageFile: File, uri: Uri) -> Unit) {
+    val (bottomSheet: View, bottomSheetDialog: Dialog) = bottomSheetPicker
 
     //Initialize Image Picker Menu Actions.
     val layoutCamera = bottomSheet.findViewById<LinearLayout>(R.id.btn_camera)
@@ -59,25 +64,26 @@ fun Activity.pickImage(onItemSelected: (imageFile: File, uri: Uri) -> Unit) {
         bottomSheetDialog.dismiss()
     }
 
-    val imagePicker = CustomImagePicker()
-    imagePicker.setHeight(100)
-    imagePicker.setWidth(100)
+    val imagePicker = CustomImagePicker().apply {
+        setHeight(100)
+        setWidth(100)
+    }
     val adapter = imagePicker.getAdapter(this)
 
-    val gridView = bottomSheet.findViewById<TwoWayGridView>(R.id.gridview)
-    gridView.layoutParams.height = dpToPx(200)
-    gridView.setNumRows(2)
-    gridView.adapter = adapter
+    bottomSheet.findViewById<TwoWayGridView>(R.id.gridview).apply {
+        layoutParams.height = dpToPx(200)
+        setNumRows(2)
+        setAdapter(adapter)
 
-    gridView.setOnItemClickListener { _, _, _, id ->
-        val imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
-        getFilePath(imageUri)?.let {
-            val file = File(it)
-            onItemSelected(file, file.toUri())
+        setOnItemClickListener { _, _, _, id ->
+            val imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
+            getFilePath(imageUri)?.let {
+                val file = File(it)
+                onItemSelected(file, file.toUri())
+            }
+            bottomSheetDialog.dismiss()
         }
-        bottomSheetDialog.dismiss()
     }
-
     bottomSheetDialog.show()
 }
 

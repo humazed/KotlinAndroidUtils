@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:id="@+id/actions"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/actions"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
@@ -24,13 +23,13 @@
         app:scrollDirectionLandscape="horizontal"
         app:scrollDirectionPortrait="horizontal"
         app:stretchMode="spacingWidthUniform"
-        app:verticalSpacing="6dp"/>
+        app:verticalSpacing="6dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
         android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
         android:background="@drawable/bg_translucent_white"
         android:orientation="vertical">
 
@@ -49,9 +48,9 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="12dp"
-                android:src="@drawable/ic_local_see_black_48dp"/>
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_local_see_black_48dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -59,7 +58,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="Camera"
                 android:textColor="#181808"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -77,9 +76,9 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="12dp"
-                android:src="@drawable/ic_action_image"/>
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="12dp"
+                android:src="@drawable/ic_action_image" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -87,7 +86,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="Gallery"
                 android:textColor="#181808"
-                android:textSize="14sp"/>
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
