@@ -58,8 +58,17 @@ fun <T> Call<T>.onSuccess(onResult: (responseBody: T) -> Unit) =
 fun EditText.textPart() = MultipartBody.create(MultipartBody.FORM, text.toString())
 
 fun String.part() = MultipartBody.create(MultipartBody.FORM, this)
-fun Int.part() = MultipartBody.create(MultipartBody.FORM, toString())
-fun Double.part() = MultipartBody.create(MultipartBody.FORM, toString())
+fun Int.part() = toString().part()
+fun Double.part() = toString().part()
+
+@JvmName("stringPart")
+fun List<String>.part() = map { it.part() }
+
+@JvmName("intPart")
+fun List<Int>.part() = map { it.part() }
+
+@JvmName("doublePart")
+fun List<Double>.part() = map { it.part() }
 
 fun File.part(requestName: String, mimeType: String = "image/*"): MultipartBody.Part {
     // okHttp doesn't accept non ascii chars and crashes the app
