@@ -23,10 +23,10 @@ fun <T> Spinner.onItemSelected(items: List<T>, names: List<String>, onItemSelect
 }
 
 
-fun <T> Spinner.onItemSelected(items: List<T>, mapNames: (List<T>) -> List<String>, onItemSelected: (item: T, position: Int) -> Unit) {
-    onItemSelected(items, mapNames(items), onItemSelected)
+fun <T> Spinner.onItemSelected(items: List<T>, mapNames: (T) -> String, onItemSelected: (item: T, position: Int) -> Unit) {
+    onItemSelected(items, items.map(mapNames), onItemSelected)
 }
 
-fun <T> Spinner.onItemSelected(items: List<T>, mapNames: (List<T>) -> List<String>, onItemSelected: (item: T) -> Unit) {
+fun <T> Spinner.onItemSelected(items: List<T>, mapNames: (T) -> String, onItemSelected: (item: T) -> Unit) {
     onItemSelected(items, mapNames) { item, _ -> onItemSelected(item) }
 }
