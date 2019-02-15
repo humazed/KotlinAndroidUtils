@@ -76,3 +76,6 @@ fun File.part(requestName: String, mimeType: String = "image/*"): MultipartBody.
     val requestFile = RequestBody.create(MediaType.parse(mimeType), this)
     return MultipartBody.Part.createFormData(requestName, asciiName, requestFile)
 }
+
+@JvmName("filePart")
+fun List<File>.part(requestName: String, mimeType: String = "image/*") = map { it.part(requestName, mimeType) }
