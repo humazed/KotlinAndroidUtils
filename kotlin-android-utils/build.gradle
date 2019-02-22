@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.github.dcendents.android-maven'
 
 group = 'com.github.humazed'
-version = '1.8.13'
+version = '1.8.14'
 
 android {
     compileSdkVersion 28
@@ -46,7 +46,7 @@ dependencies {
 
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.45'
 
-    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
 
     api 'com.jakewharton.timber:timber:4.7.1'
 
