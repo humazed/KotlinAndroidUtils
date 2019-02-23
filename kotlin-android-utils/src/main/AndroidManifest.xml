@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="humazed.github.com.kotlinandroidutils">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -16,5 +17,18 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+        <provider
+            android:name=".AppInitProvider"
+            android:authorities="${applicationId}.init"
+            android:enabled="true"
+            android:exported="false" />
+        <provider
+            android:name=".appctx.AppCtxInitProvider"
+            android:authorities="${applicationId}.appctxinitprovider"
+            android:directBootAware="true"
+            android:exported="false"
+            android:initOrder="900"
+            tools:ignore="UnusedAttribute" />
+
     </application>
 </manifest>
