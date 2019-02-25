@@ -2,6 +2,7 @@ package humazed.github.com.kotlinandroidutils
 
 import android.view.View
 import android.widget.EditText
+import humazed.github.com.kotlinandroidutils.appctx.appCtx
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -11,43 +12,42 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 
-fun <T> Call<T>.call(progressBar: View?, onResult: (responseBody: T, response: Response<T>) -> Unit) {
-    val context = progressBar?.context
-    if (context?.isConnected() == true || progressBar == null) {
+fun <T> Call<T>.call(progressBar: View?, onResult: (responseBody: T?, response: Response<T>) -> Unit) {
+    val context = progressBar?.context ?: appCtx
+    if (context.isConnected()) {
         progressBar?.show()
         enqueue(object : Callback<T> {
             override fun onResponse(call: Call<T>, response: Response<T>) {
                 progressBar?.hide()
-                response.body()?.let { onResult(it, response) } ?: e { "Response Null" }
+                onResult(response.body(), response)
             }
 
             override fun onFailure(call: Call<T>, t: Throwable) {
                 progressBar?.hide()
                 er { t }
-                context?.toast(context.getString(R.string.error_happened) ?: "حدث خطأ")
+                context.toast(context.getString(R.string.error_happened))
             }
         })
     } else {
-        context?.toast(
-                context.getString(R.string.no_internet_connection) ?: "لا يوجد اتصال بالانترت")
+        progressBar?.hide()
+        context.toast(context.getString(R.string.no_internet_connection))
     }
 }
 
-fun <T> Call<T>.call(progressBar: View?, onResult: (responseBody: T) -> Unit) {
-    val context = progressBar?.context
+fun <T> Call<T>.call(progressBar: View?, onResult: (response: T) -> Unit) {
+    val context = progressBar?.context ?: appCtx
     call(progressBar) { responseBody, response ->
         if (response.isSuccessful) {
-            response.body()?.let { onResult(responseBody) } ?: e { "Response Null" }
+            responseBody?.let { onResult(it) } ?: e { "Response Null" }
         } else {
             e { "${response.errorBody()}" }
-            context?.toast(context.getString(R.string.error_happened) ?: "حدث خطأ")
+            context.toast(context.getString(R.string.error_happened))
         }
-
     }
 }
 
 
-fun <T> Call<T>.onSuccess(onResult: (responseBody: T, response: Response<T>) -> Unit) =
+fun <T> Call<T>.onSuccess(onResult: (responseBody: T?, response: Response<T>) -> Unit) =
         call(null) { responseBody, response -> onResult(responseBody, response) }
 
 fun <T> Call<T>.onSuccess(onResult: (responseBody: T) -> Unit) =
@@ -55,9 +55,9 @@ fun <T> Call<T>.onSuccess(onResult: (responseBody: T) -> Unit) =
 
 
 // Multipart helpers
-fun EditText.textPart() = MultipartBody.create(MultipartBody.FORM, text.toString())
+fun EditText.textPart(): RequestBody = MultipartBody.create(MultipartBody.FORM, text.toString())
 
-fun String.part() = MultipartBody.create(MultipartBody.FORM, this)
+fun String.part(): RequestBody = MultipartBody.create(MultipartBody.FORM, this)
 fun Int.part() = toString().part()
 fun Double.part() = toString().part()
 
