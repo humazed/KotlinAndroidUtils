@@ -1,11 +1,8 @@
+plugins { id "com.github.dcendents.android-maven" version "2.1" }
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.github.dcendents.android-maven'
-
-group = 'com.github.humazed'
-version = '1.8.23'
 
 android {
     compileSdkVersion 28
@@ -63,3 +60,6 @@ dependencies {
     implementation 'gun0912.ted:tedpermission:2.2.0'
 
 }
+
+group = 'com.github.humazed'
+version = '1.9.8'
