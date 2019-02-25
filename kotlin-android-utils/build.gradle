@@ -5,7 +5,7 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.github.dcendents.android-maven'
 
 group = 'com.github.humazed'
-version = '1.8.21'
+version = '1.8.22'
 
 android {
     compileSdkVersion 28
