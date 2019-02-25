@@ -50,7 +50,7 @@ fun <T> Call<T>.call(progressBar: View?, onResult: (response: T) -> Unit) {
 fun <T> Call<T>.onSuccess(onResult: (responseBody: T?, response: Response<T>) -> Unit) =
         call(null) { responseBody, response -> onResult(responseBody, response) }
 
-fun <T> Call<T>.onSuccess(onResult: (responseBody: T) -> Unit) =
+fun <T> Call<T>.onSuccess(onResult: (response: T) -> Unit) =
         call(null) { responseBody -> onResult(responseBody) }
 
 
