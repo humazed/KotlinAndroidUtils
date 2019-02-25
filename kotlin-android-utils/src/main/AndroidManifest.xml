@@ -18,7 +18,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
         <provider
-            android:name=".AppInitProvider"
+            android:name=".KotlinAndroidUtilsInitProvider"
             android:authorities="${applicationId}.init"
             android:enabled="true"
             android:exported="false" />

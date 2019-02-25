@@ -33,12 +33,3 @@ abstract class InitProvider : ContentProvider() {
     final override fun getType(uri: Uri) = throw UnsupportedOperationException()
 }
 
-class AppInitProvider : InitProvider() {
-
-    override fun onCreate(): Boolean {
-
-        initTimber(BuildConfig.DEBUG)
-
-        return true
-    }
-}
