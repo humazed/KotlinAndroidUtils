@@ -19,8 +19,7 @@ class KBaseViewHolder(view: View) : BaseViewHolder(view), LayoutContainer {
  * use it in case you need to reuse the adapter
  */
 abstract class BaseAdapter<T>(@LayoutRes layoutResId: Int, items: List<T>) :
-        BaseQuickAdapter<T, KBaseViewHolder>(layoutResId, items) {
-}
+        BaseQuickAdapter<T, KBaseViewHolder>(layoutResId, items)
 
 /**
  * convenient method to create adapter

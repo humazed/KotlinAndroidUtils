@@ -3,9 +3,12 @@ package humazed.github.com.kotlinandroidutils.sample
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.BaseViewHolder
 import humazed.github.com.kotlinandroidutils.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.row_simple_text.*
+import org.jetbrains.anko.toast
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -27,6 +30,10 @@ class MainActivity : AppCompatActivity() {
         testCodified()
 
         setupRecycler()
+
+        logBt.setOnClickListener {
+            d { "MainActivity.onCreate.setOnClickListener" }
+        }
     }
 
     private fun testCodified() {
@@ -83,8 +90,9 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun setupRecycler() {
-        val items = listOf(Item("1"), Item("2"))
+        val items = listOf(Item("1"), Item("2"), Item("3"), Item("4"))
 
+/*
         recycler.adapter = simpleAdapter(R.layout.row_simple_text, items, {
             it.apply {
                 textView.text = text
@@ -92,6 +100,7 @@ class MainActivity : AppCompatActivity() {
         }) { position, item ->
             d { "item = $item" }
         }
+*/
 
 /*
         recycler.setSimpleAdapter(R.layout.row_simple_text, items, {
@@ -104,11 +113,12 @@ class MainActivity : AppCompatActivity() {
 */
 
 
-/*
-        recycler.adapter = SimpleTextAdapter(items).onItemClick { item ->
-            d { "item = $item" }
-        }
-*/
+//        recycler.adapter = BaseQuickStanderAdapter(items)
+        recycler.adapter = SimpleTextAdapter(items)
+//                .onItemClick { item ->
+//                    d { "item = $item" }
+//                }
+
     }
 
 
@@ -127,6 +137,26 @@ class SimpleTextAdapter(items: List<Item>) : BaseAdapter<Item>(R.layout.row_simp
         holder.apply {
             item.apply {
                 textView.text = text
+
+
+                onItemClick { item ->
+                    d { "onItemClick::item = ${item}" }
+                }
+            }
+        }
+    }
+}
+
+class BaseQuickStanderAdapter(items: List<Item>) : BaseQuickAdapter<Item, BaseViewHolder>(R.layout.row_simple_text, items) {
+    override fun convert(holder: BaseViewHolder, item: Item?) {
+        holder.apply {
+            item?.apply {
+                setText(R.id.textView, text)
+
+//
+//                onItemClick { item ->
+//                    d { "onItemClick::item = ${item}" }
+//                }
             }
         }
     }

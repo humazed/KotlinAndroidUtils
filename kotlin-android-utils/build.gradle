@@ -49,7 +49,7 @@ dependencies {
 
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
 
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.45'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
 
     api 'com.github.bumptech.glide:glide:4.8.0'
 
