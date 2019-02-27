@@ -30,7 +30,7 @@ fun <T> simpleAdapter(@LayoutRes layoutResId: Int,
                       map: KBaseViewHolder.(item: T) -> Unit,
                       onItemClick: ((adapter: BaseQuickAdapter<*, *>, position: Int, item: T) -> Unit)? = null
 ): BaseAdapter<T> {
-    return object : BaseAdapter<T>(layoutResId, items) {
+    return object : BaseAdapter<T>(layoutResId, items.toMutableList()) {
         override fun convert(holder: KBaseViewHolder, item: T) {
             holder.map(item)
         }
