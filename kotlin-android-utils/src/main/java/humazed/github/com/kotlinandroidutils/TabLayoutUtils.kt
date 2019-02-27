@@ -30,10 +30,10 @@ fun Fragment.setupTabs(tabLayout: TabLayout?, viewPager: ViewPager?, tabs: List<
     }
 }
 
-data class Tab(val fragment: Fragment, @StringRes val nameRes: Int, @DrawableRes val iconRes: Int? = null)
+data class Tab(val fragment: Fragment, @StringRes val titleRes: Int? = null, @DrawableRes val iconRes: Int? = null)
 
 class SectionsPagerAdapter(val context: Context, fm: FragmentManager, private val tabs: List<Tab>) : FragmentPagerAdapter(fm) {
     override fun getItem(position: Int): Fragment? = tabs[position].fragment
-    override fun getPageTitle(position: Int): CharSequence = context.getString(tabs[position].nameRes)
+    override fun getPageTitle(position: Int): CharSequence? = tabs[position].titleRes?.let { context.getString(it) }
     override fun getCount() = tabs.size
 }
