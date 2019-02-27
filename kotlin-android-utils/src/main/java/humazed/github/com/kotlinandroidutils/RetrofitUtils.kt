@@ -40,7 +40,7 @@ fun <T> Call<T>.call(progressBar: View?, onResult: (response: T) -> Unit) {
         if (response.isSuccessful) {
             responseBody?.let { onResult(it) } ?: e { "Response Null" }
         } else {
-            e { "${response.errorBody()}" }
+            e { "${response.errorBody()?.string()}" }
             context.toast(context.getString(R.string.error_happened))
         }
     }
