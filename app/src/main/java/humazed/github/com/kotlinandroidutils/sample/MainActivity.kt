@@ -137,9 +137,9 @@ class SimpleTextAdapter(items: List<Item>) : BaseAdapter<Item>(R.layout.row_simp
             item.apply {
                 textView.text = text
 
-
-                onItemClick { item ->
-                    d { "onItemClick::item = ${item}" }
+                // using onItemClick for some reason is not working in the fist item so stick to using this
+                itemView.setOnClickListener {
+                    d { "itemView.setOnClickListener = ${item}" }
                 }
             }
         }
