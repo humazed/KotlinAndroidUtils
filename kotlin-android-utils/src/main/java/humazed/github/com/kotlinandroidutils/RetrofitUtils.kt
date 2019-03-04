@@ -24,7 +24,7 @@ fun <T> Call<T>.call(progressBar: View?, onResult: (responseBody: T?, response: 
 
             override fun onFailure(call: Call<T>, t: Throwable) {
                 progressBar?.hide()
-                er { t }
+                er({ t }, { "Url: ${call.request().url()}" })
                 context.toast(context.getString(R.string.error_happened))
             }
         })
@@ -37,10 +37,11 @@ fun <T> Call<T>.call(progressBar: View?, onResult: (responseBody: T?, response: 
 fun <T> Call<T>.call(progressBar: View?, onResult: (response: T) -> Unit) {
     val context = progressBar?.context ?: appCtx
     call(progressBar) { responseBody, response ->
+        val url = response.raw().request().url()
         if (response.isSuccessful) {
-            responseBody?.let { onResult(it) } ?: e { "Response Null" }
+            responseBody?.let { onResult(it) } ?: e { "Url: $url Response Null" }
         } else {
-            e { "${response.errorBody()?.string()}" }
+            e { "Url: $url \nErrorBody: ${response.errorBody()?.string()}" }
             context.toast(context.getString(R.string.error_happened))
         }
     }
