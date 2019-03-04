@@ -164,7 +164,7 @@ inline fun w(t: Throwable) = Timber.w(t)
 inline fun e(message: () -> String) = log { Timber.e(message()) }
 
 /** Used lambda because line number not working with regular methods.*/
-inline fun er(t: () -> Throwable?) = log { Timber.wtf(t()) }
+inline fun er(t: () -> Throwable?) = log { Timber.e(t()) }
 
 inline fun er(t: () -> Throwable?, message: () -> String) = log { Timber.e(t(), message()) }
 inline fun er(t: Throwable?, message: () -> String) = log { Timber.e(t, message()) }
