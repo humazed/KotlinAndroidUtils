@@ -54,7 +54,7 @@ fun Activity.pickImage(onItemSelected: (imageFile: File, uri: Uri) -> Unit) {
         val photoPickerIntent = Intent(Intent.ACTION_PICK)
         photoPickerIntent.type = "image/*"
         startActivityForResult(photoPickerIntent) { data ->
-            data.data?.let { imageUri ->
+            data?.data?.let { imageUri ->
                 getFilePath(imageUri)?.let {
                     val file = File(it)
                     onItemSelected(file, file.toUri())
