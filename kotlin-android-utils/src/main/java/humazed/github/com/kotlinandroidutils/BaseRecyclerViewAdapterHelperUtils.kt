@@ -69,21 +69,21 @@ fun <T> simpleAdapter(@LayoutRes layoutResId: Int,
  * convenient method to set the simple adapter to RecyclerView
  * use it in case you don't need to reuse the adapter
  */
-fun <T> RecyclerView.setSimpleAdapter(@LayoutRes layoutResId: Int,
-                                      items: List<T>,
-                                      map: KBaseViewHolder.(item: T) -> Unit,
-                                      onItemClick: ((adapter: BaseQuickAdapter<*, *>, position: Int, item: T) -> Unit)? = null
+fun <T> RecyclerView?.setSimpleAdapter(@LayoutRes layoutResId: Int,
+                                       items: List<T>,
+                                       map: KBaseViewHolder.(item: T) -> Unit,
+                                       onItemClick: ((adapter: BaseQuickAdapter<*, *>, position: Int, item: T) -> Unit)? = null
 ): BaseAdapter<T> =
-        simpleAdapter(layoutResId, items, map, onItemClick).also { adapter = it }
+        simpleAdapter(layoutResId, items, map, onItemClick).also { this?.adapter = it }
 
 /**
  * convenient method to set the simple adapter to RecyclerView
  * use it in case you don't need to reuse the adapter
  */
-fun <T> RecyclerView.setSimpleAdapter(@LayoutRes layoutResId: Int,
-                                      items: List<T>,
-                                      map: KBaseViewHolder.(item: T) -> Unit,
-                                      onItemClick: ((position: Int, item: T) -> Unit)? = null
+fun <T> RecyclerView?.setSimpleAdapter(@LayoutRes layoutResId: Int,
+                                       items: List<T>,
+                                       map: KBaseViewHolder.(item: T) -> Unit,
+                                       onItemClick: ((position: Int, item: T) -> Unit)? = null
 ): BaseAdapter<T> =
         setSimpleAdapter(layoutResId, items, map,
                 { _, position, item -> onItemClick?.invoke(position, item) })
@@ -92,10 +92,10 @@ fun <T> RecyclerView.setSimpleAdapter(@LayoutRes layoutResId: Int,
  * convenient method to set the simple adapter to RecyclerView
  * use it in case you don't need to reuse the adapter
  */
-fun <T> RecyclerView.setSimpleAdapter(@LayoutRes layoutResId: Int,
-                                      items: List<T>,
-                                      map: KBaseViewHolder.(item: T) -> Unit,
-                                      onItemClick: ((item: T) -> Unit)? = null
+fun <T> RecyclerView?.setSimpleAdapter(@LayoutRes layoutResId: Int,
+                                       items: List<T>,
+                                       map: KBaseViewHolder.(item: T) -> Unit,
+                                       onItemClick: ((item: T) -> Unit)? = null
 ): BaseAdapter<T> =
         setSimpleAdapter(layoutResId, items, map, { _, item -> onItemClick?.invoke(item) })
 
@@ -104,7 +104,8 @@ fun <T> RecyclerView.setSimpleAdapter(@LayoutRes layoutResId: Int,
  * convenient method to add onItemClick
  */
 fun <T, K : BaseViewHolder> BaseQuickAdapter<T, K>.onItemClick(
-        onItemClick: (adapter: BaseQuickAdapter<*, *>, position: Int, item: T) -> Unit): BaseQuickAdapter<T, K> {
+        onItemClick: (adapter: BaseQuickAdapter<*, *>, position: Int, item: T) -> Unit
+): BaseQuickAdapter<T, K> {
     setOnItemClickListener { adapter, _, position ->
         onItemClick(adapter, position, data[position])
     }
@@ -114,12 +115,16 @@ fun <T, K : BaseViewHolder> BaseQuickAdapter<T, K>.onItemClick(
 /**
  * convenient method to add onItemClick
  */
-fun <T, K : BaseViewHolder> BaseQuickAdapter<T, K>.onItemClick(onItemClick: (position: Int, item: T) -> Unit): BaseQuickAdapter<T, K> =
+fun <T, K : BaseViewHolder> BaseQuickAdapter<T, K>.onItemClick(
+        onItemClick: (position: Int, item: T) -> Unit
+): BaseQuickAdapter<T, K> =
         onItemClick { _, position, item -> onItemClick(position, item) }
 
 /**
  * convenient method to add onItemClick
  */
-fun <T, K : BaseViewHolder> BaseQuickAdapter<T, K>.onItemClick(onItemClick: (item: T) -> Unit): BaseQuickAdapter<T, K> =
+fun <T, K : BaseViewHolder> BaseQuickAdapter<T, K>.onItemClick(
+        onItemClick: (item: T) -> Unit
+): BaseQuickAdapter<T, K> =
         onItemClick { _, item -> onItemClick(item) }
 
