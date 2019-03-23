@@ -64,4 +64,4 @@ dependencies {
 }
 
 group = 'com.github.humazed'
-version = '1.9.19'
+version = '1.9.20'
