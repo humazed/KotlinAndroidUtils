@@ -18,3 +18,11 @@ fun Context.startActivityForResult(intent: Intent, onSuccess: (data: Intent?) ->
                     if (resultCode == Activity.RESULT_OK) onSuccess(data)
                 }
                 .startActivityForResult()
+
+inline fun <reified T : Activity> Context.startActivityForResult(crossinline onSuccess: (data: Intent?) -> Unit) =
+        TedOnActivityResult.with(this)
+                .setIntent(Intent(this, T::class.java))
+                .setListener { resultCode, data ->
+                    if (resultCode == Activity.RESULT_OK) onSuccess(data)
+                }
+                .startActivityForResult()
