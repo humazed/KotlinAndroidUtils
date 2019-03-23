@@ -20,16 +20,24 @@ fun Context.startActivityForResult(intent: Intent, onSuccess: (data: Intent?) ->
                 .startActivityForResult()
 
 
-inline fun <reified T : Activity> Context.startActivityForResult(crossinline onResult: (resultCode: Int, data: Intent?) -> Unit) =
-        TedOnActivityResult.with(this)
-                .setIntent(Intent(this, T::class.java))
-                .setListener { resultCode, data -> onResult(resultCode, data) }
-                .startActivityForResult()
+inline fun <reified T : Activity> Context.startActivityForResult(
+        vararg params: Pair<String, Any?>,
+        crossinline onResult: (resultCode: Int, data: Intent?) -> Unit
+) {
+    TedOnActivityResult.with(this)
+            .setIntent(createIntent(this, T::class.java, params))
+            .setListener { resultCode, data -> onResult(resultCode, data) }
+            .startActivityForResult()
+}
 
-inline fun <reified T : Activity> Context.startActivityForResult(crossinline onSuccess: (data: Intent?) -> Unit) =
-        TedOnActivityResult.with(this)
-                .setIntent(Intent(this, T::class.java))
-                .setListener { resultCode, data ->
-                    if (resultCode == Activity.RESULT_OK) onSuccess(data)
-                }
-                .startActivityForResult()
+inline fun <reified T : Activity> Context.startActivityForResult(
+        vararg params: Pair<String, Any?>,
+        crossinline onSuccess: (data: Intent?) -> Unit
+) {
+    TedOnActivityResult.with(this)
+            .setIntent(createIntent(this, T::class.java, params))
+            .setListener { resultCode, data ->
+                if (resultCode == Activity.RESULT_OK) onSuccess(data)
+            }
+            .startActivityForResult()
+}

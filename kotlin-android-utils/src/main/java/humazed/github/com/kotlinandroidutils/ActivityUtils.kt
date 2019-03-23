@@ -3,6 +3,7 @@ package humazed.github.com.kotlinandroidutils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Build
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -35,8 +36,8 @@ fun Activity.setImmersiveScreen() {
  * }
  * ```
  */
-inline fun <reified A : Activity> Context.start(configIntent: Intent.() -> Unit = {}) {
-    startActivity(Intent(this, A::class.java).apply(configIntent))
+inline fun <reified A : Activity> Context.start(vararg params: Pair<String, Any?>, configIntent: Intent.() -> Unit = {}) {
+    startActivity(createIntent(this, T::class.java, params).apply(configIntent))
 }
 
 /**
@@ -47,8 +48,8 @@ inline fun <reified A : Activity> Context.start(configIntent: Intent.() -> Unit 
  * }
  * ```
  */
-inline fun <reified A : Activity> Fragment.start(configIntent: Intent.() -> Unit = {}) {
-    startActivity(Intent(activity, A::class.java).apply(configIntent))
+inline fun <reified A : Activity> Fragment.start(vararg params: Pair<String, Any?>, configIntent: Intent.() -> Unit = {}) {
+    context?.let { startActivity(createIntent(it, T::class.java, params).apply(configIntent)) }
 }
 
 /**
