@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import humazed.github.com.kotlinandroidutils.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.row_simple_text.*
+import org.jetbrains.anko.startActivity
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
