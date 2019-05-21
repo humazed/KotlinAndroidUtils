@@ -1,4 +1,4 @@
-plugins { id "com.github.dcendents.android-maven" version "2.1" }
+plugins { id 'digital.wup.android-maven-publish' version '3.6.2' }
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -41,6 +41,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'com.android.compat:compatx:2.1.4'
     implementation "androidx.recyclerview:recyclerview:1.0.0"
     implementation 'com.google.android.material:material:1.0.0'
 
@@ -64,4 +65,19 @@ dependencies {
 }
 
 group = 'com.github.humazed'
-version = '1.10.0'
+version = '1.10.1'
+
+publishing {
+    repositories {
+        maven { url myMavenRepoWriteUrl }
+    }
+
+    publications {
+        mavenAar(MavenPublication) {
+            from components.android
+        }
+    }
+}
+repositories {
+    mavenCentral()
+}
