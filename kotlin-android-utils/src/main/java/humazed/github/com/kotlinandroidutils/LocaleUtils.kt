@@ -66,6 +66,8 @@ private fun getThemeId(activity: Activity): Int {
 fun Activity.onResumeLocaleDelegate() {
     val previousLocale = getCurrentLocaleCompat().language
     val savedLanguage = getDefaultSharedPreferences(this).getString(KEY_LANGUAGE, "")
+    d { "savedLanguage = ${savedLanguage}" }
+
     val shouldRestartActivity = savedLanguage.isNullOrBlank() && previousLocale != savedLanguage
     if (shouldRestartActivity) recreate(this)
 }
