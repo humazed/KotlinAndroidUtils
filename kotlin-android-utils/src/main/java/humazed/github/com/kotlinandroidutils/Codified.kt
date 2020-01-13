@@ -32,7 +32,7 @@ interface Codified<out T : Serializable> {
         @Suppress("UNCHECKED_CAST")
         fun <T, TCode : Serializable> tryDecode(enumClass: Class<T>, code: TCode): T? where T : Codified<TCode> {
             val valuesForEnumClass = enumCodesByClass.getOrPut(enumClass as Class<Enum<*>>) {
-                enumClass.enumConstants.associateBy { (it as T).code }
+                enumClass.enumConstants?.associateBy { (it as T).code }
             }
 
             return valuesForEnumClass[code] as T?

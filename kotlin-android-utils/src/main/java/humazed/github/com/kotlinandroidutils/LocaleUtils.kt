@@ -66,7 +66,7 @@ private fun getThemeId(activity: Activity): Int {
 fun Activity.onResumeLocaleDelegate() {
     val previousLocale = getCurrentLocaleCompat().language
     val savedLanguage = getDefaultSharedPreferences(this).getString(KEY_LANGUAGE, "")
-    val shouldRestartActivity = savedLanguage.isNotBlank() && previousLocale != savedLanguage
+    val shouldRestartActivity = savedLanguage.isNullOrBlank() && previousLocale != savedLanguage
     if (shouldRestartActivity) recreate(this)
 }
 
@@ -86,14 +86,17 @@ fun Activity.setLanguageAndRestart(language: Language) {
 }
 
 fun Context.getLanguage(): Language {
-    val deviceLanguage = try {
+    val defaultLanguage = Language::class.decode("en")
+
+    val deviceLanguage: Language = try {
         Language::class.decode(getCurrentLocaleCompat().language)
     } catch (e: Exception) {
-        Language::class.decode("en")
+        defaultLanguage
     }
 
-    return Language::class.decode(getDefaultSharedPreferences(this)
-            .getString(KEY_LANGUAGE, deviceLanguage.value))
+    return getDefaultSharedPreferences(this)
+            .getString(KEY_LANGUAGE, deviceLanguage.value)?.let { Language::class.decode(it) }
+            ?: defaultLanguage
 }
 
 @Suppress("DEPRECATION")
