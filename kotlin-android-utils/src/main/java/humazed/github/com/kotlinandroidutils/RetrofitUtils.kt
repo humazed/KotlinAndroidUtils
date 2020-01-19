@@ -6,13 +6,18 @@ import humazed.github.com.kotlinandroidutils.appctx.appCtx
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 
-fun <T> Call<T>.call(progressBar: View?, onResult: (responseBody: T?, response: Response<T>) -> Unit) {
+fun <T> Call<T>.call(
+        progressBar: View?,
+        onResult: (responseBody: T?, response: Response<T>) -> Unit,
+        onFailure: ((t: Throwable) -> Unit)? = null
+) {
     val context = progressBar?.context ?: appCtx
     if (context.isConnected()) {
         progressBar?.show()
@@ -25,7 +30,12 @@ fun <T> Call<T>.call(progressBar: View?, onResult: (responseBody: T?, response: 
             override fun onFailure(call: Call<T>, t: Throwable) {
                 progressBar?.hide()
                 er({ t }, { "Url: ${call.request().url()}" })
-                context.toast(context.getString(R.string.error_happened))
+
+                if (onFailure == null) {
+                    context.toast(context.getString(R.string.error_happened))
+                } else {
+                    onFailure(t)
+                }
             }
         })
     } else {
@@ -34,25 +44,42 @@ fun <T> Call<T>.call(progressBar: View?, onResult: (responseBody: T?, response: 
     }
 }
 
-fun <T> Call<T>.call(progressBar: View?, onResult: (response: T) -> Unit) {
+fun <T> Call<T>.call(
+        progressBar: View?,
+        onResult: (response: T) -> Unit,
+        onFailure: ((t: Throwable?, errorBody: ResponseBody?) -> Unit)? = null
+) {
     val context = progressBar?.context ?: appCtx
-    call(progressBar) { responseBody, response ->
+    call(progressBar, { responseBody, response ->
         val url = response.raw().request().url()
         if (response.isSuccessful) {
             responseBody?.let { onResult(it) } ?: e { "Url: $url Response Null" }
         } else {
             e { "Url: $url \nErrorBody: ${response.errorBody()?.string()}" }
-            context.toast(context.getString(R.string.error_happened))
+
+            if (onFailure == null) {
+                context.toast(context.getString(R.string.error_happened))
+            } else {
+                onFailure(null, response.errorBody())
+            }
         }
-    }
+    }, { t -> onFailure?.invoke(t, null) })
 }
 
 
 fun <T> Call<T>.onSuccess(onResult: (responseBody: T?, response: Response<T>) -> Unit) =
-        call(null) { responseBody, response -> onResult(responseBody, response) }
+        call(
+                null,
+                onResult = { responseBody, response -> onResult(responseBody, response) },
+                onFailure = null
+        )
 
 fun <T> Call<T>.onSuccess(onResult: (response: T) -> Unit) =
-        call(null) { responseBody -> onResult(responseBody) }
+        call(
+                null,
+                onResult = { responseBody -> onResult(responseBody) },
+                onFailure = null
+        )
 
 
 // Multipart helpers
