@@ -101,7 +101,6 @@ class MainActivity : AppCompatActivity() {
         }
 */
 
-/*
         recycler.setSimpleAdapter(R.layout.row_simple_text, items, {
             it.apply {
                 textView.text = text
@@ -109,7 +108,6 @@ class MainActivity : AppCompatActivity() {
         }) { position, item ->
             d { "item = $item" }
         }
-*/
 
 
 //        recycler.adapter = BaseQuickStanderAdapter(items)

@@ -61,12 +61,12 @@ dependencies {
 
     implementation 'com.github.searchy2:CustomImagePicker:2.2.1'
     implementation 'gun0912.ted:tedonactivityresult:1.0.6'
-    implementation 'gun0912.ted:tedpermission:2.2.0'
+    implementation 'gun0912.ted:tedpermission:2.2.3'
 
 }
 
 group = 'com.github.humazed'
-version = '1.10.11'
+version = '1.10.12'
 
 publishing {
     repositories {

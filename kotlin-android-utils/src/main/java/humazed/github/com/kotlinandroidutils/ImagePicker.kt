@@ -93,7 +93,7 @@ fun Activity.pickImageWithPermission(onItemSelected: (imageFile: File, uri: Uri)
             pickImage(onItemSelected)
         }
 
-        override fun onPermissionDenied(deniedPermissions: ArrayList<String>) {
+        override fun onPermissionDenied(deniedPermissions: MutableList<String>) {
             longToast("Permission Denied\n$deniedPermissions")
         }
     }
