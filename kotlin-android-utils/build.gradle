@@ -24,16 +24,20 @@ android {
     }
     androidExtensions { experimental = true }
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 ext {
-    anko_version = '0.10.8'
+    anko_version = '0.10.9'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.13'
-    testImplementation 'org.assertj:assertj-core:3.8.0'
+    testImplementation 'org.assertj:assertj-core:3.16.1'
 
     androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0-alpha4', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -45,7 +49,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation 'com.google.android.material:material:1.1.0'
 
-    implementation 'com.squareup.retrofit2:retrofit:2.7.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
 
@@ -54,7 +58,7 @@ dependencies {
 
     api 'com.jakewharton.timber:timber:4.7.1'
 
-    api 'com.jakewharton.threetenabp:threetenabp:1.2.3'
+    api 'com.jakewharton.threetenabp:threetenabp:1.2.4'
 
     api "org.jetbrains.anko:anko:$anko_version"
     api "org.jetbrains.anko:anko-appcompat-v7-commons:$anko_version"
