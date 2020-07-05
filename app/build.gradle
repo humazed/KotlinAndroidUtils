@@ -40,6 +40,5 @@ dependencies {
 
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
 
-
     implementation project(path: ':kotlin-android-utils')
 }
