@@ -54,8 +54,7 @@ dependencies {
 
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
 
-    // check CustomImagePicker glides version before upgrading it as upgrading it without upgrading this lib cause crashes.
-    api 'com.github.bumptech.glide:glide:4.8.0'
+    api 'com.github.bumptech.glide:glide:4.11.0'
 
     api 'com.jakewharton.timber:timber:4.7.1'
 
@@ -64,7 +63,7 @@ dependencies {
     api "org.jetbrains.anko:anko:$anko_version"
     api "org.jetbrains.anko:anko-appcompat-v7-commons:$anko_version"
 
-    implementation 'com.github.searchy2:CustomImagePicker:2.2.1'
+    implementation 'com.github.humazed:CustomImagePicker:3.0.0'
     implementation 'gun0912.ted:tedonactivityresult:1.0.6'
     implementation 'gun0912.ted:tedpermission:2.2.3'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
@@ -72,7 +71,7 @@ dependencies {
 }
 
 group = 'com.github.humazed'
-version = '1.10.15'
+version = '1.11.0'
 
 publishing {
     repositories {
