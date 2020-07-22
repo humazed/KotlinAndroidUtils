@@ -1,13 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="humazed.github.com.kotlinandroidutils">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application android:requestLegacyExternalStorage="true">
+
+        <activity android:name=".ImageFullScreenActivity" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
@@ -29,6 +32,6 @@
             android:exported="false"
             android:initOrder="900"
             tools:ignore="UnusedAttribute" />
-
     </application>
+
 </manifest>
