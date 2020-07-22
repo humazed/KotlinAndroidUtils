@@ -17,6 +17,11 @@ class ImageFullScreenActivity : AppCompatActivity() {
 
         photoView.setImageURI(intent.getParcelableExtra(KEY_FULL_SCREEN_IMAGE_URI))
         photoView.load(intent.getStringExtra(KEY_FULL_SCREEN_IMAGE_URL))
+
+
+        closeButton.setOnClickListener {
+            finish()
+        }
     }
 
 }
