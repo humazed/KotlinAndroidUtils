@@ -1,10 +1,10 @@
 package humazed.github.com.kotlinandroidutils.sample
 
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import humazed.github.com.kotlinandroidutils.Language
 import humazed.github.com.kotlinandroidutils.setLanguage
 
-class App : Application() {
+class App : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
 

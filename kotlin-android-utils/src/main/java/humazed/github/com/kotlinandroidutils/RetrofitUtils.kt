@@ -3,9 +3,11 @@ package humazed.github.com.kotlinandroidutils
 import android.view.View
 import android.widget.EditText
 import humazed.github.com.kotlinandroidutils.appctx.appCtx
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
 import org.jetbrains.anko.toast
 import retrofit2.Call
@@ -29,7 +31,7 @@ fun <T> Call<T>.call(
 
             override fun onFailure(call: Call<T>, t: Throwable) {
                 progressBar?.hide()
-                er({ t }, { "Url: ${call.request().url()}" })
+                er({ t }, { "Url: ${call.request().url}" })
 
                 if (onFailure == null) {
                     context.toast(context.getString(R.string.error_happened))
@@ -51,7 +53,7 @@ fun <T> Call<T>.call(
 ) {
     val context = progressBar?.context ?: appCtx
     call(progressBar, { responseBody, response ->
-        val url = response.raw().request().url()
+        val url = response.raw().request.url
         if (response.isSuccessful) {
             responseBody?.let { onResult(it) } ?: e { "Url: $url Response Null" }
         } else {
@@ -83,9 +85,11 @@ fun <T> Call<T>.onSuccess(onResult: (response: T) -> Unit) =
 
 
 // Multipart helpers
-fun EditText.textPart(): RequestBody = MultipartBody.create(MultipartBody.FORM, text.toString())
+fun EditText.textPart(): RequestBody = text.toString().toRequestBody(MultipartBody.FORM)
 
-fun String.part(): RequestBody = MultipartBody.create(MultipartBody.FORM, this)
+//        MultipartBody.create(MultipartBody.FORM, text.toString())
+
+fun String.part(): RequestBody = this.toRequestBody(MultipartBody.FORM)
 fun Int.part() = toString().part()
 fun Double.part() = toString().part()
 
@@ -101,7 +105,7 @@ fun List<Double>.part() = map { it.part() }
 fun File.part(requestName: String, mimeType: String = "image/*"): MultipartBody.Part {
     // okHttp doesn't accept non ascii chars and crashes the app
     val asciiName = name.replace(Regex("[^A-Za-z0-9 ]"), "")
-    val requestFile = RequestBody.create(MediaType.parse(mimeType), this)
+    val requestFile = this.asRequestBody(mimeType.toMediaTypeOrNull())
     return MultipartBody.Part.createFormData(requestName, asciiName, requestFile)
 }
 

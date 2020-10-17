@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.BaseViewHolder
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import humazed.github.com.kotlinandroidutils.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.row_simple_text.*
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
 
 
 //        recycler.adapter = BaseQuickStanderAdapter(items)
-        recycler.adapter = SimpleTextAdapter(items)
+        recycler.adapter = SimpleTextAdapter(items.toMutableList())
 //                .onItemClick { item ->
 //                    d { "item = $item" }
 //                }
@@ -144,10 +144,10 @@ class SimpleTextAdapter(items: List<Item>) : BaseAdapter<Item>(R.layout.row_simp
     }
 }
 
-class BaseQuickStanderAdapter(items: List<Item>) : BaseQuickAdapter<Item, BaseViewHolder>(R.layout.row_simple_text, items) {
-    override fun convert(holder: BaseViewHolder, item: Item?) {
+class BaseQuickStanderAdapter(items: MutableList<Item>) : BaseQuickAdapter<Item, BaseViewHolder>(R.layout.row_simple_text, items) {
+    override fun convert(holder: BaseViewHolder, item: Item) {
         holder.apply {
-            item?.apply {
+            item.apply {
                 setText(R.id.textView, text)
 
 //
