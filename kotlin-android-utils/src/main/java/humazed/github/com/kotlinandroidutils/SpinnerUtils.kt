@@ -1,6 +1,5 @@
 package humazed.github.com.kotlinandroidutils
 
-import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -8,13 +7,8 @@ import android.widget.AutoCompleteTextView
 
 fun <T> AutoCompleteTextView.onItemSelected(items: List<T>, names: List<String>, onItemSelected: (item: T, position: Int) -> Unit) {
     setAdapter(ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, names))
-    onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            onItemSelected(items[position], position)
-        }
-
-        override fun onNothingSelected(parent: AdapterView<*>?) {
-        }
+    onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
+        onItemSelected(items[position], position)
     }
 }
 
