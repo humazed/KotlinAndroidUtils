@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import humazed.github.com.kotlinandroidutils.*
+import humazed.github.com.kotlinandroidutils.BaseAdapter
+import humazed.github.com.kotlinandroidutils.KBaseViewHolder
+import humazed.github.com.kotlinandroidutils.setSimpleAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.row_simple_text.*
 import java.util.*

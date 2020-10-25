@@ -73,7 +73,7 @@ dependencies {
 }
 
 group = 'com.github.humazed'
-version = '1.15.11'
+version = '1.15.13'
 
 publishing {
     repositories {

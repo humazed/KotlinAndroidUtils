@@ -2,4 +2,8 @@
 <resources>
     <string name="no_internet_connection">لا يوجد اتصال بالانترت</string>
     <string name="error_happened">حدث خطأ</string>
+    <string name="loading">جاري التحميل...</string>
+    <string name="load_more_failed">حدث خطأ</string>
+    <string name="click_to_load_more">إضغط للتحميل المزيد</string>
+    <string name="no_more_data">لا يوجد بيانات إضافية</string>
 </resources>
