@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity() {
 
 
 //        recycler.adapter = BaseQuickStanderAdapter(items)
-        recycler.adapter = SimpleTextAdapter(items.toMutableList())
+//        recycler.adapter = SimpleTextAdapter(items.toMutableList())
 //                .onItemClick { item ->
 //                    d { "item = $item" }
 //                }

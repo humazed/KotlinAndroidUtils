@@ -14,7 +14,7 @@ import kotlinx.android.extensions.LayoutContainer
  * implements [LayoutContainer] so it can cache the viewHolder see [https://github.com/Kotlin/KEEP/blob/master/proposals/android-extensions-entity-caching.md#view-holder-pattern]
  */
 class KBaseViewHolder(view: View) : BaseViewHolder(view), LayoutContainer {
-    override val containerView: View? = view
+    override val containerView: View = view
 }
 
 /**
@@ -133,7 +133,6 @@ fun <T, K : BaseViewHolder> BaseQuickAdapter<T, K>.onItemClick(
         onItemClick: (item: T) -> Unit
 ): BaseQuickAdapter<T, K> =
         onItemClick { _, item -> onItemClick(item) }
-
 
 
 class SimpleLoadMoreView : BaseLoadMoreView() {
