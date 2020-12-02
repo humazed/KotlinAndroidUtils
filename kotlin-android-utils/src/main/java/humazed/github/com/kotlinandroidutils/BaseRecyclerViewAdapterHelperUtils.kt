@@ -20,6 +20,7 @@ class KBaseViewHolder(view: View) : BaseViewHolder(view), LayoutContainer {
 /**
  * convenient class around BaseQuickAdapter
  * use it in case you need to reuse the adapter
+ * Note: Need to add `androidExtensions { experimental = true }`
  */
 abstract class BaseAdapter<T>(@LayoutRes layoutResId: Int, items: List<T>) :
         BaseQuickAdapter<T, KBaseViewHolder>(
@@ -30,6 +31,7 @@ abstract class BaseAdapter<T>(@LayoutRes layoutResId: Int, items: List<T>) :
 /**
  * convenient method to create adapter
  * use it in case you don't need to reuse the adapter
+ * Note: Need to add `androidExtensions { experimental = true }`
  */
 fun <T> simpleAdapter(@LayoutRes layoutResId: Int,
                       items: List<T>,
@@ -51,6 +53,7 @@ fun <T> simpleAdapter(@LayoutRes layoutResId: Int,
 /**
  * convenient method to create adapter
  * use it in case you don't need to reuse the adapter
+ * Note: Need to add `androidExtensions { experimental = true }`
  */
 fun <T> simpleAdapter(@LayoutRes layoutResId: Int,
                       items: List<T>,
@@ -63,6 +66,7 @@ fun <T> simpleAdapter(@LayoutRes layoutResId: Int,
 /**
  * convenient method to create adapter
  * use it in case you don't need to reuse the adapter
+ * Note: Need to add `androidExtensions { experimental = true }`
  */
 fun <T> simpleAdapter(@LayoutRes layoutResId: Int,
                       items: List<T>,
@@ -74,6 +78,7 @@ fun <T> simpleAdapter(@LayoutRes layoutResId: Int,
 /**
  * convenient method to set the simple adapter to RecyclerView
  * use it in case you don't need to reuse the adapter
+ * Note: Need to add `androidExtensions { experimental = true }`
  */
 fun <T> RecyclerView?.setSimpleAdapter(@LayoutRes layoutResId: Int,
                                        items: List<T>,
@@ -85,6 +90,7 @@ fun <T> RecyclerView?.setSimpleAdapter(@LayoutRes layoutResId: Int,
 /**
  * convenient method to set the simple adapter to RecyclerView
  * use it in case you don't need to reuse the adapter
+ * Note: Need to add `androidExtensions { experimental = true }`
  */
 fun <T> RecyclerView?.setSimpleAdapter(@LayoutRes layoutResId: Int,
                                        items: List<T>,
@@ -97,6 +103,7 @@ fun <T> RecyclerView?.setSimpleAdapter(@LayoutRes layoutResId: Int,
 /**
  * convenient method to set the simple adapter to RecyclerView
  * use it in case you don't need to reuse the adapter
+ * Note: Need to add `androidExtensions { experimental = true }`
  */
 fun <T> RecyclerView?.setSimpleAdapter(@LayoutRes layoutResId: Int,
                                        items: List<T>,
@@ -136,7 +143,6 @@ fun <T, K : BaseViewHolder> BaseQuickAdapter<T, K>.onItemClick(
 
 
 class SimpleLoadMoreView : BaseLoadMoreView() {
-
     override fun getRootView(parent: ViewGroup): View =
             parent.getItemView(R.layout.quick_view_load_more)
 
