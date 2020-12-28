@@ -51,10 +51,28 @@ inline fun View?.setSize(width: Int, height: Int) {
     layoutParams = params
 }
 
-fun View?.setBackgroundTint(@ColorRes colorRes: Int) {
+
+/**
+ * Applies a tint to the background drawable. Does not modify the current tint
+ * mode, which is {@link BlendMode#SRC_IN} by default.
+ * <p>
+ * Subsequent calls to {@link #setBackground(Drawable)} will automatically
+ * mutate the drawable and apply the specified tint and tint mode using
+ * {@link Drawable#setTintList(ColorStateList)}.
+ *
+ * @param colorRes the tint to apply, may be [null] to clear tint
+ *
+ * @attr ref android.R.styleable#View_backgroundTint
+ * @see #getBackgroundTintList()
+ * @see Drawable#setTintList(ColorStateList)
+ */
+fun View?.setBackgroundTint(@ColorRes colorRes: Int?) {
     if (this == null) return
+
     ViewCompat.setBackgroundTintList(
-            this, ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
+            this,
+            if (colorRes == null) null
+            else ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
     )
 }
 
