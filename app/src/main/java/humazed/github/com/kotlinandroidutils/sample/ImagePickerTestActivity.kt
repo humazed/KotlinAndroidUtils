@@ -22,6 +22,9 @@ class ImagePickerTestActivity : AppCompatActivity() {
                         d { "onCancelOrFail " }
                     },
             )
+//            pickImageWithPermission { imageFile, uri ->
+//
+//            }
         }
     }
 }

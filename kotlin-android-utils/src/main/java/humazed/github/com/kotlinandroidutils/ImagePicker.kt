@@ -38,8 +38,8 @@ private val Activity.bottomSheetPicker: Pair<View, Dialog> by LazyWithReceiver<A
 }
 
 fun Activity.pickImage(
-        onItemSelected: (imageFile: File, uri: Uri) -> Unit,
         onCancelOrFail: () -> Unit = {},
+        onItemSelected: (imageFile: File, uri: Uri) -> Unit,
 ) {
     val (bottomSheet: View, bottomSheetDialog: Dialog) = bottomSheetPicker
 
@@ -111,12 +111,12 @@ fun Activity.pickImage(
 }
 
 fun Activity.pickImageWithPermission(
-        onItemSelected: (imageFile: File, uri: Uri) -> Unit,
         onCancelOrFail: () -> Unit = {},
+        onItemSelected: (imageFile: File, uri: Uri) -> Unit,
 ) {
     val permissionListener = object : PermissionListener {
         override fun onPermissionGranted() {
-            pickImage(onItemSelected, onCancelOrFail)
+            pickImage(onCancelOrFail, onItemSelected)
         }
 
         override fun onPermissionDenied(deniedPermissions: MutableList<String>) {
