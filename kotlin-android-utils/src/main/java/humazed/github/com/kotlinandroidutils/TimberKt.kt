@@ -197,7 +197,7 @@ fun initTimber(debuggable: Boolean, releaseTree: Timber.Tree? = null, debugTree:
 }
 
 class LineNumberDebugTree : Timber.DebugTree() {
-    override fun createStackElementTag(element: StackTraceElement): String? {
+    override fun createStackElementTag(element: StackTraceElement): String {
         return "(${element.fileName}:${element.lineNumber})#${element.methodName}"
     }
 }

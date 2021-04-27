@@ -37,30 +37,52 @@ private val Activity.bottomSheetPicker: Pair<View, Dialog> by LazyWithReceiver<A
     Pair(bottomSheet, bottomSheetDialog)
 }
 
-fun Activity.pickImage(onItemSelected: (imageFile: File, uri: Uri) -> Unit) {
+fun Activity.pickImage(
+        onItemSelected: (imageFile: File, uri: Uri) -> Unit,
+        onCancelOrFail: () -> Unit = {},
+) {
     val (bottomSheet: View, bottomSheetDialog: Dialog) = bottomSheetPicker
+
+    var dismissedForGalleryOrCamera = false
+    var pickedFile: File? = null
+
+    bottomSheetDialog.setOnDismissListener {
+        if (!dismissedForGalleryOrCamera && pickedFile == null) onCancelOrFail()
+    }
 
     //Initialize Image Picker Menu Actions.
     val layoutCamera = bottomSheet.findViewById<LinearLayout>(R.id.btn_camera)
     val layoutGallery = bottomSheet.findViewById<LinearLayout>(R.id.btn_gallery)
     layoutCamera.setOnClickListener {
-        dispatchTakePicture { imageFile ->
-            val uri: Uri = FileProvider.getUriForFile(this, "$packageName.fileprovider", imageFile)
-            onItemSelected(imageFile, uri)
-        }
+        dispatchTakePicture(
+                onSuccess = { imageFile ->
+                    pickedFile = imageFile
+                    val uri: Uri = FileProvider.getUriForFile(this, "$packageName.fileprovider", imageFile)
+                    onItemSelected(imageFile, uri)
+                },
+                onCancelOrFail = onCancelOrFail,
+        )
+        dismissedForGalleryOrCamera = true
         bottomSheetDialog.dismiss()
     }
+
     layoutGallery.setOnClickListener {
         val photoPickerIntent = Intent(Intent.ACTION_PICK)
         photoPickerIntent.type = "image/*"
-        startActivityForResult(photoPickerIntent) { data ->
-            data?.data?.let { imageUri ->
-                getFilePath(imageUri)?.let {
-                    val file = File(it)
-                    onItemSelected(file, file.toUri())
+        startActivityForResult(photoPickerIntent) { resultCode, data ->
+            if (resultCode == Activity.RESULT_OK) {
+                data?.data?.let { imageUri ->
+                    getFilePath(imageUri)?.let {
+                        val file = File(it)
+                        pickedFile = file
+                        onItemSelected(file, file.toUri())
+                    }
                 }
+            } else {
+                onCancelOrFail()
             }
         }
+        dismissedForGalleryOrCamera = true
         bottomSheetDialog.dismiss()
     }
 
@@ -79,6 +101,7 @@ fun Activity.pickImage(onItemSelected: (imageFile: File, uri: Uri) -> Unit) {
             val imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
             getFilePath(imageUri)?.let {
                 val file = File(it)
+                pickedFile = file
                 onItemSelected(file, file.toUri())
             }
             bottomSheetDialog.dismiss()
@@ -87,10 +110,13 @@ fun Activity.pickImage(onItemSelected: (imageFile: File, uri: Uri) -> Unit) {
     bottomSheetDialog.show()
 }
 
-fun Activity.pickImageWithPermission(onItemSelected: (imageFile: File, uri: Uri) -> Unit) {
+fun Activity.pickImageWithPermission(
+        onItemSelected: (imageFile: File, uri: Uri) -> Unit,
+        onCancelOrFail: () -> Unit = {},
+) {
     val permissionListener = object : PermissionListener {
         override fun onPermissionGranted() {
-            pickImage(onItemSelected)
+            pickImage(onItemSelected, onCancelOrFail)
         }
 
         override fun onPermissionDenied(deniedPermissions: MutableList<String>) {
@@ -104,24 +130,31 @@ fun Activity.pickImageWithPermission(onItemSelected: (imageFile: File, uri: Uri)
             .check()
 }
 
-private fun Context.dispatchTakePicture(onSuccess: (imageFile: File) -> Unit) {
-    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-        // Ensure that there's a camera activity to handle the intent
-        takePictureIntent.resolveActivity(packageManager)?.also {
-            // Create the File where the photo should go
-            val photoFile: File? = try {
-                createImageFile()
-            } catch (ex: IOException) {
-                // Error occurred while creating the File
-                null
-            }
-            // Continue only if the File was successfully created
-            photoFile?.also {
-                val photoURI: Uri = FileProvider.getUriForFile(this, "$packageName.fileprovider", it)
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                startActivityForResult(takePictureIntent) { _ ->
+private fun Context.dispatchTakePicture(
+        onSuccess: (imageFile: File) -> Unit,
+        onCancelOrFail: () -> Unit,
+) {
+    val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+    // Ensure that there's a camera activity to handle the intent
+    takePictureIntent.resolveActivity(packageManager)?.also {
+        // Create the File where the photo should go
+        val photoFile: File? = try {
+            createImageFile()
+        } catch (ex: IOException) {
+            er { ex }
+            // Error occurred while creating the File
+            null
+        }
+        // Continue only if the File was successfully created
+        photoFile?.also {
+            val photoURI: Uri = FileProvider.getUriForFile(this, "$packageName.fileprovider", it)
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+            startActivityForResult(takePictureIntent) { resultCode, data: Intent? ->
+                if (resultCode == Activity.RESULT_OK) {
                     galleryAddPic(photoFile)
                     onSuccess(photoFile)
+                } else {
+                    onCancelOrFail()
                 }
             }
         }

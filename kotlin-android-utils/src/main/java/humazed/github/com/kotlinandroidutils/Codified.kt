@@ -22,7 +22,8 @@ interface Codified<out T : Serializable> {
         }
 
         fun <T, TCode : Serializable> decode(enumClass: Class<T>, code: TCode): T where T : Codified<TCode> {
-            return tryDecode(enumClass, code) ?: throw IllegalArgumentException("No $enumClass value with code == $code")
+            return tryDecode(enumClass, code)
+                    ?: throw IllegalArgumentException("No $enumClass value with code == $code")
         }
 
         inline fun <reified T, TCode : Serializable> tryDecode(code: TCode): T? where T : Codified<TCode> {
@@ -44,12 +45,10 @@ interface Codified<out T : Serializable> {
  * throw IllegalArgumentException if the enum doesn't contains the [code]
  */
 fun <T, TCode> KClass<T>.decode(code: TCode): T
-        where T : Codified<TCode>, T : Enum<T>, TCode : Serializable
-        = Enums.decode(java, code)
+        where T : Codified<TCode>, T : Enum<T>, TCode : Serializable = Enums.decode(java, code)
 
 /**
  * returns null if the enum doesn't contains the [code]
  */
 fun <T, TCode> KClass<T>.tryDecode(code: TCode): T?
-        where T : Codified<TCode>, T : Enum<T>, TCode : Serializable
-        = Enums.tryDecode(java, code)
+        where T : Codified<TCode>, T : Enum<T>, TCode : Serializable = Enums.tryDecode(java, code)
