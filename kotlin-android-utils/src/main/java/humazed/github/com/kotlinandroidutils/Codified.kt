@@ -21,9 +21,12 @@ interface Codified<out T : Serializable> {
             return decode(T::class.java, code)
         }
 
-        fun <T, TCode : Serializable> decode(enumClass: Class<T>, code: TCode): T where T : Codified<TCode> {
+        fun <T, TCode : Serializable> decode(
+            enumClass: Class<T>,
+            code: TCode
+        ): T where T : Codified<TCode> {
             return tryDecode(enumClass, code)
-                    ?: throw IllegalArgumentException("No $enumClass value with code == $code")
+                ?: throw IllegalArgumentException("No $enumClass value with code == $code")
         }
 
         inline fun <reified T, TCode : Serializable> tryDecode(code: TCode): T? where T : Codified<TCode> {
@@ -31,7 +34,10 @@ interface Codified<out T : Serializable> {
         }
 
         @Suppress("UNCHECKED_CAST")
-        fun <T, TCode : Serializable> tryDecode(enumClass: Class<T>, code: TCode): T? where T : Codified<TCode> {
+        fun <T, TCode : Serializable> tryDecode(
+            enumClass: Class<T>,
+            code: TCode
+        ): T? where T : Codified<TCode> {
             val valuesForEnumClass = enumCodesByClass.getOrPut(enumClass as Class<Enum<*>>) {
                 enumClass.enumConstants?.associateBy { (it as T).code }
             }

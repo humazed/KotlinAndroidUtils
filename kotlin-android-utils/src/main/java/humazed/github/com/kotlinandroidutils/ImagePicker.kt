@@ -12,9 +12,10 @@ import android.provider.MediaStore
 import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.LinearLayout.LayoutParams.*
 import androidx.core.content.FileProvider
 import com.gun0912.tedpermission.PermissionListener
-import com.gun0912.tedpermission.TedPermission
+import com.gun0912.tedpermission.normal.TedPermission
 import org.jetbrains.anko.longToast
 import stream.customimagepicker.CustomImagePicker
 import stream.jess.ui.TwoWayGridView
@@ -30,7 +31,7 @@ private val Activity.bottomSheetPicker: Pair<View, Dialog> by LazyWithReceiver<A
     val bottomSheetDialog = Dialog(this, R.style.MaterialDialogSheet).apply {
         setContentView(bottomSheet)
         setCancelable(true)
-        window?.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        window?.setLayout(MATCH_PARENT, WRAP_CONTENT)
         window?.setGravity(Gravity.BOTTOM)
     }
 
@@ -38,8 +39,8 @@ private val Activity.bottomSheetPicker: Pair<View, Dialog> by LazyWithReceiver<A
 }
 
 fun Activity.pickImage(
-        onCancelOrFail: () -> Unit = {},
-        onItemSelected: (imageFile: File, uri: Uri) -> Unit,
+    onCancelOrFail: () -> Unit = {},
+    onItemSelected: (imageFile: File, uri: Uri) -> Unit,
 ) {
     val (bottomSheet: View, bottomSheetDialog: Dialog) = bottomSheetPicker
 
@@ -55,12 +56,13 @@ fun Activity.pickImage(
     val layoutGallery = bottomSheet.findViewById<LinearLayout>(R.id.btn_gallery)
     layoutCamera.setOnClickListener {
         dispatchTakePicture(
-                onSuccess = { imageFile ->
-                    pickedFile = imageFile
-                    val uri: Uri = FileProvider.getUriForFile(this, "$packageName.fileprovider", imageFile)
-                    onItemSelected(imageFile, uri)
-                },
-                onCancelOrFail = onCancelOrFail,
+            onSuccess = { imageFile ->
+                pickedFile = imageFile
+                val uri: Uri =
+                    FileProvider.getUriForFile(this, "$packageName.fileprovider", imageFile)
+                onItemSelected(imageFile, uri)
+            },
+            onCancelOrFail = onCancelOrFail,
         )
         dismissedForGalleryOrCamera = true
         bottomSheetDialog.dismiss()
@@ -98,7 +100,8 @@ fun Activity.pickImage(
         setAdapter(adapter)
 
         setOnItemClickListener { _, _, _, id ->
-            val imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
+            val imageUri =
+                ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
             getFilePath(imageUri)?.let {
                 val file = File(it)
                 pickedFile = file
@@ -111,8 +114,8 @@ fun Activity.pickImage(
 }
 
 fun Activity.pickImageWithPermission(
-        onCancelOrFail: () -> Unit = {},
-        onItemSelected: (imageFile: File, uri: Uri) -> Unit,
+    onCancelOrFail: () -> Unit = {},
+    onItemSelected: (imageFile: File, uri: Uri) -> Unit,
 ) {
     val permissionListener = object : PermissionListener {
         override fun onPermissionGranted() {
@@ -123,16 +126,16 @@ fun Activity.pickImageWithPermission(
             longToast("Permission Denied\n$deniedPermissions")
         }
     }
-    TedPermission.with(this)
-            .setPermissionListener(permissionListener)
-            .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
-            .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
-            .check()
+    TedPermission.create()
+        .setPermissionListener(permissionListener)
+        .setDeniedMessage("If you reject permission,you can not use this service\n\nPlease turn on permissions at [Setting] > [Permission]")
+        .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+        .check()
 }
 
 private fun Context.dispatchTakePicture(
-        onSuccess: (imageFile: File) -> Unit,
-        onCancelOrFail: () -> Unit,
+    onSuccess: (imageFile: File) -> Unit,
+    onCancelOrFail: () -> Unit,
 ) {
     val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
     // Ensure that there's a camera activity to handle the intent
@@ -168,9 +171,9 @@ private fun Context.createImageFile(): File {
     val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
     val storageDir: File = getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
     return File.createTempFile(
-            "JPEG_${timeStamp}_", /* prefix */
-            ".jpg", /* suffix */
-            storageDir /* directory */
+        "JPEG_${timeStamp}_", /* prefix */
+        ".jpg", /* suffix */
+        storageDir /* directory */
     )
 }
 
