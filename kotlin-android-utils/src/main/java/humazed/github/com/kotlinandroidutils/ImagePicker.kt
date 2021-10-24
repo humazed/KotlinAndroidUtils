@@ -74,7 +74,7 @@ fun Activity.pickImage(
         startActivityForResult(photoPickerIntent) { resultCode, data ->
             if (resultCode == Activity.RESULT_OK) {
                 data?.data?.let { imageUri ->
-                    getFilePath(imageUri)?.let {
+                    imageUri.getFilePath(applicationContext)?.let {
                         val file = File(it)
                         pickedFile = file
                         onItemSelected(file, file.toUri())
@@ -102,7 +102,7 @@ fun Activity.pickImage(
         setOnItemClickListener { _, _, _, id ->
             val imageUri =
                 ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id)
-            getFilePath(imageUri)?.let {
+            imageUri.getFilePath(applicationContext)?.let {
                 val file = File(it)
                 pickedFile = file
                 onItemSelected(file, file.toUri())
