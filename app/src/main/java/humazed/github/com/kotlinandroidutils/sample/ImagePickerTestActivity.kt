@@ -16,7 +16,9 @@ class ImagePickerTestActivity : AppCompatActivity() {
         pickImageBt.setOnClickListener {
             pickImageWithPermission(
                     onItemSelected = { imageFile, uri ->
-                        imageView.load(uri)
+                        imageView.load(uri){
+                            placeholder(0)
+                        }
                     },
                     onCancelOrFail = {
                         d { "onCancelOrFail " }

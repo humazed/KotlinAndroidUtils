@@ -12,6 +12,7 @@ import android.widget.EditText
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.isVisible
 
 var View?.visible
     get() = this?.visibility == VISIBLE
@@ -28,6 +29,10 @@ inline fun View?.hide(gone: Boolean = true) {
 
 inline fun View?.show() {
     this?.visibility = VISIBLE
+}
+
+inline fun List<View?>.visibility(isVisible: Boolean) {
+    forEach { it?.visibility = if (isVisible) VISIBLE else GONE }
 }
 
 inline fun View?.setWidth(width: Int) {
@@ -71,9 +76,9 @@ fun View?.setBackgroundTint(@ColorRes colorRes: Int?) {
     if (this == null) return
 
     ViewCompat.setBackgroundTintList(
-            this,
-            if (colorRes == null) null
-            else ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
+        this,
+        if (colorRes == null) null
+        else ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
     )
 }
 
