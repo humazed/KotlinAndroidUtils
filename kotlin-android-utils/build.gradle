@@ -83,7 +83,7 @@ afterEvaluate {
 
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'com.github.humazed'
-                version = '1.17.2'
+                version = '1.18.0'
             }
         }
         repositories {
