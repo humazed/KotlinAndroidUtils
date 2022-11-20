@@ -5,21 +5,24 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.activity_image_full_screen.*
+import humazed.github.com.kotlinandroidutils.databinding.ActivityImageFullScreenBinding
 
 const val KEY_FULL_SCREEN_IMAGE_URI = "ImageFullScreenActivity:KEY_IMAGE_URI"
 const val KEY_FULL_SCREEN_IMAGE_URL = "ImageFullScreenActivity:KEY_IMAGE_URL"
 
 class ImageFullScreenActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityImageFullScreenBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_image_full_screen)
+        binding = ActivityImageFullScreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        photoView.setImageURI(intent.getParcelableExtra(KEY_FULL_SCREEN_IMAGE_URI))
-        photoView.load(intent.getStringExtra(KEY_FULL_SCREEN_IMAGE_URL))
+        binding.photoView.setImageURI(intent.getParcelableExtra(KEY_FULL_SCREEN_IMAGE_URI))
+        binding.photoView.load(intent.getStringExtra(KEY_FULL_SCREEN_IMAGE_URL))
 
 
-        closeButton.setOnClickListener {
+        binding.closeButton.setOnClickListener {
             finish()
         }
     }

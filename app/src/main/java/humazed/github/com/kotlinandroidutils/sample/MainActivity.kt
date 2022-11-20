@@ -6,21 +6,20 @@ import androidx.appcompat.app.AppCompatActivity
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import humazed.github.com.kotlinandroidutils.*
-import humazed.github.com.kotlinandroidutils.BaseAdapter
-import humazed.github.com.kotlinandroidutils.KBaseViewHolder
-import humazed.github.com.kotlinandroidutils.setSimpleAdapter
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.row_simple_text.*
+import humazed.github.com.kotlinandroidutils.sample.databinding.ActivityMainBinding
+import humazed.github.com.kotlinandroidutils.sample.databinding.RowSimpleTextBinding
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
-        imagePickerBt.setOnClickListener { start<ImagePickerTestActivity> { } }
+        binding.imagePickerBt.setOnClickListener { start<ImagePickerTestActivity> { } }
 
         d { "Locale.getDefault().language = ${Locale.getDefault().language}" }
         d { "getLanguage() = ${getLanguage()}" }
@@ -33,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         setupRecycler()
 
-        logBt.setOnClickListener {
+        binding.logBt.setOnClickListener {
             d { "MainActivity.onCreate.setOnClickListener" }
         }
     }
@@ -104,9 +103,12 @@ class MainActivity : AppCompatActivity() {
         }
 */
 
-        recycler.setSimpleAdapter(R.layout.row_simple_text, items, {
-            it.apply {
-                textView.text = text
+        binding.recycler.setSimpleAdapter(R.layout.row_simple_text, items, {
+            val rowSimpleTextBinding = RowSimpleTextBinding.bind(itemView)
+            rowSimpleTextBinding.apply {
+                it.apply {
+                    textView.text = text
+                }
             }
         }) { position, item ->
             d { "item = $item" }
@@ -133,13 +135,15 @@ class MainActivity : AppCompatActivity() {
 data class Item(val text: String)
 
 class SimpleTextAdapter(items: List<Item>) : BaseAdapter<Item>(R.layout.row_simple_text, items) {
-    override fun convert(holder: KBaseViewHolder, item: Item) {
-        holder.apply {
+    override fun convert(holder: BaseViewHolder, item: Item) {
+        val binding = RowSimpleTextBinding.bind(holder.itemView)
+
+        binding.apply {
             item.apply {
                 textView.text = text
 
                 // using onItemClick for some reason is not working in the fist item so stick to using this
-                itemView.setOnClickListener {
+                holder.itemView.setOnClickListener {
                     d { "itemView.setOnClickListener = ${item}" }
                 }
             }
@@ -147,7 +151,8 @@ class SimpleTextAdapter(items: List<Item>) : BaseAdapter<Item>(R.layout.row_simp
     }
 }
 
-class BaseQuickStanderAdapter(items: MutableList<Item>) : BaseQuickAdapter<Item, BaseViewHolder>(R.layout.row_simple_text, items) {
+class BaseQuickStanderAdapter(items: MutableList<Item>) :
+    BaseQuickAdapter<Item, BaseViewHolder>(R.layout.row_simple_text, items) {
     override fun convert(holder: BaseViewHolder, item: Item) {
         holder.apply {
             item.apply {

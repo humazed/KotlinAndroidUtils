@@ -5,18 +5,22 @@ import androidx.appcompat.app.AppCompatActivity
 import humazed.github.com.kotlinandroidutils.d
 import humazed.github.com.kotlinandroidutils.load
 import humazed.github.com.kotlinandroidutils.pickImageWithPermission
-import kotlinx.android.synthetic.main.activity_image_picker_test.*
+import humazed.github.com.kotlinandroidutils.sample.databinding.ActivityImagePickerTestBinding
 
 class ImagePickerTestActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityImagePickerTestBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_image_picker_test)
+        binding = ActivityImagePickerTestBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        pickImageBt.setOnClickListener {
+
+        binding.pickImageBt.setOnClickListener {
             pickImageWithPermission(
                     onItemSelected = { imageFile, uri ->
-                        imageView.load(uri){
+                        binding.imageView.load(uri){
                             placeholder(0)
                         }
                     },
