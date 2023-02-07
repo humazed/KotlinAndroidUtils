@@ -62,6 +62,7 @@ dependencies {
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.4'
 
     implementation "org.jetbrains.anko:anko:$anko_version"
+    implementation "org.jetbrains.anko:anko-appcompat-v7-commons:$anko_version"
 
     implementation 'com.github.humazed:CustomImagePicker:3.0.0'
     implementation 'gun0912.ted:tedonactivityresult:1.0.6'
