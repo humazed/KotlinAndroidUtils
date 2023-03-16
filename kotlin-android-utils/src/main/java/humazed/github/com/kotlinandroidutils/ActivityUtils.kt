@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.view.View
 import androidx.fragment.app.Fragment
-import org.jetbrains.anko.AnkoException
 import java.io.Serializable
 
 
@@ -39,7 +38,10 @@ fun Activity.setImmersiveScreen() {
  * }
  * ```
  */
-inline fun <reified T : Activity> Context.start(vararg params: Pair<String, Any?>, configIntent: Intent.() -> Unit = {}) {
+inline fun <reified T : Activity> Context.start(
+    vararg params: Pair<String, Any?>,
+    configIntent: Intent.() -> Unit = {}
+) {
     startActivity(createIntent(this, T::class.java, params).apply(configIntent))
 }
 
@@ -51,7 +53,10 @@ inline fun <reified T : Activity> Context.start(vararg params: Pair<String, Any?
  * }
  * ```
  */
-inline fun <reified T : Activity> Fragment.start(vararg params: Pair<String, Any?>, configIntent: Intent.() -> Unit = {}) {
+inline fun <reified T : Activity> Fragment.start(
+    vararg params: Pair<String, Any?>,
+    configIntent: Intent.() -> Unit = {}
+) {
     context?.let { startActivity(createIntent(it, T::class.java, params).apply(configIntent)) }
 }
 
@@ -69,7 +74,11 @@ inline fun Context.startActivity(action: String, configIntent: Intent.() -> Unit
 
 
 // copied for anko
-fun <T> createIntent(ctx: Context, clazz: Class<out T>, params: Array<out Pair<String, Any?>>): Intent {
+fun <T> createIntent(
+    ctx: Context,
+    clazz: Class<out T>,
+    params: Array<out Pair<String, Any?>>
+): Intent {
     val intent = Intent(ctx, clazz)
     if (params.isNotEmpty()) fillIntentArguments(intent, params)
     return intent
@@ -96,8 +105,9 @@ private fun fillIntentArguments(intent: Intent, params: Array<out Pair<String, A
                 value.isArrayOf<CharSequence>() -> intent.putExtra(it.first, value)
                 value.isArrayOf<String>() -> intent.putExtra(it.first, value)
                 value.isArrayOf<Parcelable>() -> intent.putExtra(it.first, value)
-                else -> throw AnkoException("Intent extra ${it.first} has wrong type ${value.javaClass.name}")
+                else -> throw RuntimeException("Intent extra ${it.first} has wrong type ${value.javaClass.name}")
             }
+
             is IntArray -> intent.putExtra(it.first, value)
             is LongArray -> intent.putExtra(it.first, value)
             is FloatArray -> intent.putExtra(it.first, value)
@@ -105,7 +115,7 @@ private fun fillIntentArguments(intent: Intent, params: Array<out Pair<String, A
             is CharArray -> intent.putExtra(it.first, value)
             is ShortArray -> intent.putExtra(it.first, value)
             is BooleanArray -> intent.putExtra(it.first, value)
-            else -> throw AnkoException("Intent extra ${it.first} has wrong type ${value.javaClass.name}")
+            else -> throw RuntimeException("Intent extra ${it.first} has wrong type ${value.javaClass.name}")
         }
         return@forEach
     }

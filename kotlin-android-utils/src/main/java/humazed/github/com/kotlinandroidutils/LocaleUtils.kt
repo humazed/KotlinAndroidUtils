@@ -97,8 +97,8 @@ fun Context.getLanguage(): Language {
     }
 
     return getDefaultSharedPreferences(this)
-            .getString(KEY_LANGUAGE, deviceLanguage.value)?.let { Language::class.decode(it) }
-            ?: defaultLanguage
+        .getString(KEY_LANGUAGE, deviceLanguage.value)?.let { Language::class.decode(it) }
+        ?: defaultLanguage
 }
 
 @Suppress("DEPRECATION")
@@ -123,10 +123,10 @@ fun recreate(activity: Activity, animate: Boolean = true) {
             restartIntent.putExtras(extras)
         }
         ActivityCompat.startActivity(
-                activity, restartIntent,
-                ActivityOptionsCompat
-                        .makeCustomAnimation(activity, android.R.anim.fade_in, android.R.anim.fade_out)
-                        .toBundle()
+            activity, restartIntent,
+            ActivityOptionsCompat
+                .makeCustomAnimation(activity, android.R.anim.fade_in, android.R.anim.fade_out)
+                .toBundle()
         )
         activity.finish()
     } else {

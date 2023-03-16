@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
-import org.jetbrains.anko.notificationManager
 
 /**
  * create Notification Channel for Android Oreo and above.
@@ -20,19 +19,24 @@ import org.jetbrains.anko.notificationManager
  */
 @RequiresApi(Build.VERSION_CODES.O)
 @JvmOverloads
-fun Context.createNotificationChannel(id: String? = null,
-                                      name: String? = null,
-                                      description: String? = null,
-                                      importance: Int = NotificationManager.IMPORTANCE_HIGH): String? {
+fun Context.createNotificationChannel(
+    id: String? = null,
+    name: String? = null,
+    description: String? = null,
+    importance: Int = NotificationManager.IMPORTANCE_HIGH
+): String? {
     if (Build.VERSION.SDK_INT < 26) return null
 
     val newId = id ?: packageName
-    val appName = if (applicationInfo.labelRes != 0) getString(applicationInfo.labelRes) else applicationInfo.nonLocalizedLabel.toString()
+    val appName =
+        if (applicationInfo.labelRes != 0) getString(applicationInfo.labelRes) else applicationInfo.nonLocalizedLabel.toString()
     val newName = name ?: appName
     val newDescription = description ?: appName
 
     val mChannel = NotificationChannel(newId, newName, importance)
     mChannel.description = newDescription
+
+    val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     notificationManager.createNotificationChannel(mChannel)
 
     return newId

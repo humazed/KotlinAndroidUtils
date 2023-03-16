@@ -13,5 +13,7 @@ inline fun consume(f: () -> Unit): Boolean {
     return true
 }
 
-fun Context.dpToPx(dp: Int) = Math.round(dp * (resources.displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT))
+fun Context.dpToPx(dp: Int) =
+    Math.round(dp * (resources.displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT))
+
 fun Fragment.dpToPx(dp: Int) = context?.dpToPx(dp)

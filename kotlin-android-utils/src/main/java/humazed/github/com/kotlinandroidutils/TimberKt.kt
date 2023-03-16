@@ -191,7 +191,11 @@ internal inline fun log(block: () -> Unit) {
  * only need to provide [releaseTree] as [debugTree] is by default [LineNumberDebugTree]
  */
 @JvmOverloads
-fun initTimber(debuggable: Boolean, releaseTree: Timber.Tree? = null, debugTree: Timber.DebugTree = LineNumberDebugTree()) {
+fun initTimber(
+    debuggable: Boolean,
+    releaseTree: Timber.Tree? = null,
+    debugTree: Timber.DebugTree = LineNumberDebugTree()
+) {
     if (debuggable) Timber.plant(debugTree)
     else releaseTree?.let { Timber.plant(it) }
 }

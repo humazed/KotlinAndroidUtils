@@ -8,4 +8,5 @@ import java.util.*
 
 fun LocalDate.toDate(): Date = Date(atStartOfDay(ZoneId.systemDefault()).toEpochSecond() * 1000)
 
-fun Date.toLocalDate(): LocalDate = Instant.ofEpochMilli(time).atZone(ZoneId.systemDefault()).toLocalDate()
+fun Date.toLocalDate(): LocalDate =
+    Instant.ofEpochMilli(time).atZone(ZoneId.systemDefault()).toLocalDate()

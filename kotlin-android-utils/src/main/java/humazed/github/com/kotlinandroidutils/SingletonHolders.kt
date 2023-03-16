@@ -7,6 +7,7 @@ package humazed.github.com.kotlinandroidutils
  */
 open class SingletonHolder<out T, in A>(creator: (A) -> T) {
     private var creator: ((A) -> T)? = creator
+
     @Volatile
     private var instance: T? = null
 
@@ -30,6 +31,7 @@ open class SingletonHolder<out T, in A>(creator: (A) -> T) {
 
 open class SingletonHolder2<out T, in A, in B>(creator: (A, B) -> T) {
     private var creator: ((A, B) -> T)? = creator
+
     @Volatile
     private var instance: T? = null
 

@@ -16,7 +16,6 @@ import android.widget.LinearLayout.LayoutParams.*
 import androidx.core.content.FileProvider
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
-import org.jetbrains.anko.longToast
 import stream.customimagepicker.CustomImagePicker
 import stream.jess.ui.TwoWayGridView
 import java.io.File

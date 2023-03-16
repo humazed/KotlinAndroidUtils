@@ -16,7 +16,11 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 
-data class Tab(val fragment: Fragment, @StringRes val titleRes: Int? = null, @DrawableRes val iconRes: Int? = null)
+data class Tab(
+    val fragment: Fragment,
+    @StringRes val titleRes: Int? = null,
+    @DrawableRes val iconRes: Int? = null
+)
 
 // region the legacy ViewPager
 fun AppCompatActivity.setupTabs(tabLayout: TabLayout?, viewPager: ViewPager?, tabs: List<Tab>) {
@@ -41,9 +45,11 @@ fun Fragment.setupTabs(tabLayout: TabLayout?, viewPager: ViewPager?, tabs: List<
 
 
 class SectionsPagerAdapter(val context: Context, fm: FragmentManager, private val tabs: List<Tab>) :
-        FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+    FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     override fun getItem(position: Int): Fragment = tabs[position].fragment
-    override fun getPageTitle(position: Int): CharSequence? = tabs[position].titleRes?.let { context.getString(it) }
+    override fun getPageTitle(position: Int): CharSequence? =
+        tabs[position].titleRes?.let { context.getString(it) }
+
     override fun getCount() = tabs.size
 }
 // endregion the legacy ViewPager
@@ -75,10 +81,22 @@ fun Fragment.setupTabs(tabLayout: TabLayout?, viewPager: ViewPager2?, tabs: List
     }
 }
 
-private class SectionsPager2Adapter(fm: FragmentManager, lifecycle: Lifecycle, private val tabs: List<Tab>)
-    : FragmentStateAdapter(fm, lifecycle) {
-    constructor(fragment: Fragment, tabs: List<Tab>) : this(fragment.childFragmentManager, fragment.lifecycle, tabs)
-    constructor(activity: FragmentActivity, tabs: List<Tab>) : this(activity.supportFragmentManager, activity.lifecycle, tabs)
+private class SectionsPager2Adapter(
+    fm: FragmentManager,
+    lifecycle: Lifecycle,
+    private val tabs: List<Tab>
+) : FragmentStateAdapter(fm, lifecycle) {
+    constructor(fragment: Fragment, tabs: List<Tab>) : this(
+        fragment.childFragmentManager,
+        fragment.lifecycle,
+        tabs
+    )
+
+    constructor(activity: FragmentActivity, tabs: List<Tab>) : this(
+        activity.supportFragmentManager,
+        activity.lifecycle,
+        tabs
+    )
 
     override fun createFragment(position: Int): Fragment = tabs[position].fragment
 

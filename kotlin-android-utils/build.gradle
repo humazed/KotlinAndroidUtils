@@ -6,6 +6,7 @@ plugins {
 }
 
 android {
+    namespace 'humazed.github.com.kotlinandroidutils'
     compileSdkVersion 33
 
     defaultConfig {
@@ -23,15 +24,10 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     buildFeatures { viewBinding true }
-    namespace 'humazed.github.com.kotlinandroidutils'
-}
-
-ext {
-    anko_version = '0.10.8'
 }
 
 dependencies {
@@ -41,9 +37,9 @@ dependencies {
 
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
-    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.appcompat:compatx:2.1.7'
-    implementation "androidx.recyclerview:recyclerview:1.2.1"
+    implementation "androidx.recyclerview:recyclerview:1.3.0"
     implementation 'com.google.android.material:material:1.8.0'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     implementation 'androidx.preference:preference-ktx:1.2.0'
@@ -61,14 +57,10 @@ dependencies {
 
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.4'
 
-    implementation "org.jetbrains.anko:anko:$anko_version"
-    implementation "org.jetbrains.anko:anko-appcompat-v7-commons:$anko_version"
-
     implementation 'com.github.humazed:CustomImagePicker:3.0.0'
     implementation 'gun0912.ted:tedonactivityresult:1.0.6'
     implementation 'io.github.ParkSangGwon:tedpermission-normal:3.2.3'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
-
 }
 
 afterEvaluate {
@@ -81,7 +73,7 @@ afterEvaluate {
 
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'com.github.humazed'
-                version = '1.19.2'
+                version = '1.20.0'
             }
         }
         repositories {

@@ -9,16 +9,15 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
-import org.jetbrains.anko.toast
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 
 fun <T> Call<T>.call(
-        progressBar: View?,
-        onResult: (responseBody: T?, response: Response<T>) -> Unit,
-        onFailure: ((t: Throwable) -> Unit)? = null
+    progressBar: View?,
+    onResult: (responseBody: T?, response: Response<T>) -> Unit,
+    onFailure: ((t: Throwable) -> Unit)? = null
 ) {
     val context = progressBar?.context ?: appCtx
     if (context.isConnected()) {
@@ -47,9 +46,9 @@ fun <T> Call<T>.call(
 }
 
 fun <T> Call<T>.call(
-        progressBar: View?,
-        onResult: (response: T) -> Unit,
-        onFailure: ((t: Throwable?, errorBody: ResponseBody?) -> Unit)? = null
+    progressBar: View?,
+    onResult: (response: T) -> Unit,
+    onFailure: ((t: Throwable?, errorBody: ResponseBody?) -> Unit)? = null
 ) {
     val context = progressBar?.context ?: appCtx
     call(progressBar, { responseBody, response ->
@@ -70,18 +69,18 @@ fun <T> Call<T>.call(
 
 
 fun <T> Call<T>.onSuccess(onResult: (responseBody: T?, response: Response<T>) -> Unit) =
-        call(
-                null,
-                onResult = { responseBody, response -> onResult(responseBody, response) },
-                onFailure = null
-        )
+    call(
+        null,
+        onResult = { responseBody, response -> onResult(responseBody, response) },
+        onFailure = null
+    )
 
 fun <T> Call<T>.onSuccess(onResult: (response: T) -> Unit) =
-        call(
-                null,
-                onResult = { responseBody -> onResult(responseBody) },
-                onFailure = null
-        )
+    call(
+        null,
+        onResult = { responseBody -> onResult(responseBody) },
+        onFailure = null
+    )
 
 
 // Multipart helpers
@@ -110,4 +109,5 @@ fun File.part(requestName: String, mimeType: String = "image/*"): MultipartBody.
 }
 
 @JvmName("filePart")
-fun List<File>.part(requestName: String, mimeType: String = "image/*") = map { it.part(requestName, mimeType) }
+fun List<File>.part(requestName: String, mimeType: String = "image/*") =
+    map { it.part(requestName, mimeType) }
