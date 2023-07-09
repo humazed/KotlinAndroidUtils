@@ -19,14 +19,14 @@ class ImagePickerTestActivity : AppCompatActivity() {
 
         binding.pickImageBt.setOnClickListener {
             pickImageWithPermission(
-                    onItemSelected = { imageFile, uri ->
-                        binding.imageView.load(uri){
-                            placeholder(0)
-                        }
-                    },
-                    onCancelOrFail = {
-                        d { "onCancelOrFail " }
-                    },
+                onItemSelected = { imageFile, uri ->
+                    binding.imageView.load(uri) {
+                        placeholder(0)
+                    }
+                },
+                onCancelOrFail = {
+                    d { "onCancelOrFail " }
+                },
             )
 //            pickImageWithPermission { imageFile, uri ->
 //

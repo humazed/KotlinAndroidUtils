@@ -35,6 +35,11 @@ class MainActivity : AppCompatActivity() {
         binding.logBt.setOnClickListener {
             d { "MainActivity.onCreate.setOnClickListener" }
         }
+
+        binding.testImageView.load("https://picsum.photos/200/300") {
+            default(R.drawable.ic_launcher_background)
+                centerCrop()
+        }
     }
 
     private fun testCodified() {
