@@ -3,6 +3,7 @@ package humazed.github.com.kotlinandroidutils.sample
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import humazed.github.com.kotlinandroidutils.*
