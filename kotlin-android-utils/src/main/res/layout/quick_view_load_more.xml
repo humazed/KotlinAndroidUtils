@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_40">
+    android:layout_height="40dp">
 
     <LinearLayout
         android:id="@+id/load_more_loading_view"
@@ -15,18 +15,18 @@
             style="?android:attr/progressBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/dp_4"
-            android:layout_marginRight="@dimen/dp_4" />
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp" />
 
         <TextView
             android:id="@+id/loading_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_4"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
             android:text="@string/loading"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/sp_14"
-            android:layout_marginStart="@dimen/dp_4" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <FrameLayout
