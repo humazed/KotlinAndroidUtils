@@ -35,6 +35,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.logBt.setOnClickListener {
             d { "MainActivity.onCreate.setOnClickListener" }
+            try {
+                throw NullPointerException("12345")
+            } catch (e: Exception) {
+                er(e) { "MainActivity.onCreate.setOnClickListener" }
+            }
         }
 
         binding.testImageView.load("https://picsum.photos/200/300") {
